@@ -1,5 +1,7 @@
 import { CommandType } from "../../../command";
 import { getGptOutput } from "../gptApi";
+import { defineAsyncComponent } from "vue";
+import ComponentOutputType = GptTerminal.ComponentOutputType;
 
 const chatCommand: CommandType = {
   func: "chat",
@@ -33,7 +35,14 @@ const chatCommand: CommandType = {
     const message = _.join(" ");
     const res: any = await getGptOutput(message, role);
     if (res?.code === 0) {
-      terminal.writeTextSuccessResult(res.data);
+      const output: ComponentOutputType = {
+        type: "component",
+        component: defineAsyncComponent(() => import("./ChatBox.vue")),
+        props: {
+          message: res.data
+        },
+      };
+      terminal.writeResult(output);
     } else {
       terminal.writeTextErrorResult(res?.message ?? "GPT请求失败");
     }
