@@ -49,6 +49,8 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 - 基于 GPT 的命令行翻译助手，当你忘记 linux 命令时，就用它！
 
+- 基于 GPT 的 SQL-BOY，当你不知道如何写 SQL语句时，就用它！
+
 - 基本的终端命令，如查看历史命令、帮助手册、清屏等
 
 - 终端用户登录与注册
@@ -83,6 +85,20 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
      ```bash
      npm run start:dev
      ```
+
+## 如何"调教"属于你的 GPT 角色？
+
+在执行如下步骤之前，请确保已经按照 `快速开始` 完成项目本地部署。
+
+### v1.0.x 版本指南
+
+后续会逐步加入前端界面中自定义角色的功能
+
+1.   进入 `server/src/thirdpart/gptApi/template` 目录下，新建 `markdown` 文件。文件名为角色名。
+     -   参照该目录下的其它模板文件
+         -   SYSTEM：对 GPT 角色的定义
+         -   USER - ASSISTANT：示范提示 GPT 在特定情况下该如何回答 - Prompt
+2.   进入 `src/core/commands/gpt/subCommands/roles.ts` 文件中，在数组中添加你之前定义的的角色名（与 `markdown` 模板文件保持一致）。
 
 ## 版本规划
 
