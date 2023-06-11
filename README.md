@@ -35,6 +35,10 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 在这里，你可以更加轻易地实现更多定制化的功能，拥有专属于你的 GPT 终端！
 
+## 预览图
+
+<img width="1472" alt="image" src="https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/ddd2e43d-91c9-4d34-9ea2-e7da8f561a1c">
+
 ## 功能概览
 
 - 支持命令行终端与 GPT 进行对话，我们程序员就是要用极客范儿的方式与 GPT 交流！
