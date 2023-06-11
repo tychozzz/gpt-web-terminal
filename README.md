@@ -8,7 +8,7 @@
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable-next-line MD036 -->
-_✨ 定制专属于你的 GPT Terminal ✨_
+_✨ 用程序员的方式，打开GPT！定制专属于你的 GPT 终端 ✨_
 <!-- prettier-ignore-end -->
 
 <p align="center">
