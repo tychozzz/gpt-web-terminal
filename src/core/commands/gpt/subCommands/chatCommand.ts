@@ -2,7 +2,7 @@ import { CommandType } from "../../../command";
 import { getGptOutput } from "../gptApi";
 import { defineAsyncComponent } from "vue";
 import ComponentOutputType = GptTerminal.ComponentOutputType;
-import { roles } from "./roles";
+import { roleMap } from "./roles";
 
 const chatCommand: CommandType = {
   func: "chat",
@@ -30,8 +30,9 @@ const chatCommand: CommandType = {
       return;
     }
     // TODO:用户自定义角色后，需要包含进来
-    if (!roles.includes(role)) {
-      terminal.writeTextErrorResult("角色为空");
+    if (!roleMap.has(role)) {
+      terminal.writeTextErrorResult("角色不存在");
+      return;
     }
     const message = _.join(" ");
     const res: any = await getGptOutput(message, role);
