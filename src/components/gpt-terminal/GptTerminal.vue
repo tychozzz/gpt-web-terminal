@@ -389,6 +389,9 @@ onMounted(() => {
     terminal.writeTextOutput(
       `Thanks so much to the YuIndex author - <a href="//docs.qq.com/doc/DUFFRVWladXVjeUxW" target="_blank">coder_yupi</a>`
     );
+    terminal.writeTextOutput("<br/>")
+    terminal.writeTextOutput("<span style='color: red'>Notice: You can only request Open AI 3 times per minute if you are a non-paying user.</span>")
+    terminal.writeTextOutput(`&nbsp;&nbsp;- Link: <a href="//platform.openai.com/docs/guides/rate-limits/overview" target="_blank">Open AI</a>`)
     terminal.writeTextOutput("<br/>");
   }
 });
