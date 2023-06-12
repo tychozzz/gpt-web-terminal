@@ -8,7 +8,6 @@ const roleCommand: CommandType = {
   params: [],
   options: [],
   async action(options, terminal) {
-    // TODO 角色命令
     const output: ComponentOutputType = {
       type: "component",
       component: defineAsyncComponent(() => import("./RoleBox.vue")),

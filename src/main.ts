@@ -4,6 +4,7 @@ import * as VueRouter from "vue-router";
 import routes from "./configs/routes";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import 'highlight.js/styles/github.css'
 
 const app = createApp(App);
 

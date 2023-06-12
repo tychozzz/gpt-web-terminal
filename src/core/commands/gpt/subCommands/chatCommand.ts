@@ -35,20 +35,38 @@ const chatCommand: CommandType = {
       return;
     }
     const message = _.join(" ");
-    const res: any = await getGptOutput(message, role);
-    if (res?.code === 0) {
-      console.log("gpt响应：", res);
-      const output: ComponentOutputType = {
-        type: "component",
-        component: defineAsyncComponent(() => import("./ChatBox.vue")),
-        props: {
-          message: res.data,
-        },
-      };
-      terminal.writeResult(output);
-    } else {
-      terminal.writeTextErrorResult(res?.message ?? "GPT请求失败");
-    }
+    // const res: any = await getGptOutput(message, role);
+
+    // console.log(res);
+
+    // console.log(typeof(res))
+
+    // terminal.writeTextErrorResult("GPT 正在测试中...");
+
+    // 调用接口放在 ChatBox 内部去做，传入 ChatBox的参数为用户输入的 message
+    const output: ComponentOutputType = {
+      type: "component",
+      component: defineAsyncComponent(() => import("./ChatBox.vue")),
+      props: {
+        message: message,
+        role: role,
+      },
+    };
+    terminal.writeResult(output);
+
+    // if (res?.code === 0) {
+    //   console.log("gpt响应：", res);
+    //   const output: ComponentOutputType = {
+    //     type: "component",
+    //     component: defineAsyncComponent(() => import("./ChatBox.vue")),
+    //     props: {
+    //       message: res.data,
+    //     },
+    //   };
+    //   terminal.writeResult(output);
+    // } else {
+    //   terminal.writeTextErrorResult(res?.message ?? "GPT请求失败");
+    // }
   },
 };
 

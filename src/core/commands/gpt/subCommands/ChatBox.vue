@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, toRefs } from "vue";
+import { computed, onMounted, toRefs, ref } from "vue";
 import { marked } from 'marked'
 import hljs from "highlight.js";
 
@@ -22,24 +22,51 @@ marked.setOptions({
 
 interface ChatBoxProps {
   message: string;
+  role: string;
 }
 
 const props = withDefaults(defineProps<ChatBoxProps>(), {});
-const { message } = toRefs(props);
+const { message, role } = toRefs(props);
+
+const output = ref("")
 
 const result = computed(() => {
-  console.log("message是：", message.value)
-  console.log("marked message是：", marked(message.value))
-  return marked(message.value)
+  console.log("output -", output.value)
+  console.log("marked output -", marked(output.value))
+  return marked(output.value)
 })
 
-onMounted(() => { });
+onMounted(async () => {
+  console.log("message -", message)
+  console.log("role -", role)
+
+  const response = await fetch('http://127.0.0.1:7345/api/gpt/get', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: message.value,
+      role: role.value,
+    }),
+  });
+
+  if (!response.body) return;
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+  while (true) {
+    var { value, done } = await reader.read();
+    if (done) break;
+    value = value?.replace('undefined', '')
+    console.log("received data -", value)
+    output.value += value?.replace('undefined', '')
+  }
+});
 </script>
 
 <style scoped>
 .chat-box {
   background-color: #292421;
-  margin: 10px 0 10px 0; 
+  margin: 10px 0 10px 0;
   padding: 20px 20px 5px 20px;
 }
 </style>

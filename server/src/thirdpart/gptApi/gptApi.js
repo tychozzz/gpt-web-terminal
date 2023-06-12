@@ -23,19 +23,33 @@ async function generatePromptMessages(input, role) {
 }
 
 async function createChatCompletion(messages) {
-  const response = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    temperature: 0,
-    messages,
-  });
-  if (response.data.choices.length) {
-    const firstMessage = response.data.choices[0].message;
-    if (firstMessage) {
-      console.log("回复内容：", firstMessage.content);
-      return firstMessage.content;
+  // 如下为 流式数据传输 写法
+  const res = openai.createChatCompletion(
+    {
+      model: "gpt-3.5-turbo",
+      messages,
+      stream: true,
+    },
+    {
+      responseType: "stream",
     }
-  }
-  throw new Error("Failed to get response from OpenAI service.");
+  );
+  return res
+
+  // 如下为 非流式数据传输 写法
+  // const response = await openai.createChatCompletion({
+  //   model: "gpt-3.5-turbo",
+  //   temperature: 0,
+  //   messages,
+  // });
+  // if (response.data.choices.length) {
+  //   const firstMessage = response.data.choices[0].message;
+  //   if (firstMessage) {
+  //     console.log("回复内容：", firstMessage.content);
+  //     return firstMessage.content;
+  //   }
+  // }
+  // throw new Error("Failed to get response from OpenAI service.");
 }
 
 module.exports = {
