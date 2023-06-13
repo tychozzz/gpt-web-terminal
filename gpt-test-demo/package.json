@@ -1,0 +1,15 @@
+{
+  "name": "gpt-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "openai": "^3.2.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "description": ""
+}
