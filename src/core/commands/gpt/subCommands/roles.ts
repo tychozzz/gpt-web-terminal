@@ -32,4 +32,11 @@ export const roleMap: Map<string, Role> = new Map([
       desc: "将你的自然语言指令翻译为 SQL 代码",
     },
   ],
+  [
+    "ikun",
+    {
+      name: "忠实的 IKun",
+      desc: "小黑子～"
+    }
+  ]
 ]);
