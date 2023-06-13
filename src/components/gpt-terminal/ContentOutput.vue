@@ -7,6 +7,8 @@
       <span v-if="output.type === 'text'" v-html="smartText(output.text)" />
     </template>
     <component
+      @start="handleStart"
+      @finish="handleFinish"
       :is="output.component"
       v-if="output.type === 'component'"
       v-bind="output.props ?? {}"
@@ -17,7 +19,7 @@
 <script setup lang="ts">
 import smartText from "../../utils/smartText";
 import OutputType = GptTerminal.OutputType;
-import { computed, toRefs } from "vue";
+import { computed, toRefs, defineEmits } from "vue";
 
 interface OutputProps {
   output: OutputType;
@@ -44,6 +46,18 @@ const outputTagColor = computed((): string => {
       return "";
   }
 });
+
+const emit = defineEmits(['start', 'finish'])
+
+// gpt 输出开始时的回调
+const handleStart = () => {
+  emit('start')
+}
+
+// gpt 输出结束后的回调
+const handleFinish = () => {
+  emit('finish')
+}
 </script>
 
 <style scoped>

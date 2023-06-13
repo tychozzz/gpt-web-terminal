@@ -26,7 +26,7 @@
                 <span>{{ output.text }}</span>
               </div>
               <div v-for="(result, idx) in output?.resultList" :key="idx" class="terminal-row">
-                <content-output :output="result" />
+                <content-output @start="handleStart" @finish="handleFinish" :output="result" />
               </div>
             </template>
             <!-- 打印信息 -->
@@ -182,6 +182,18 @@ const doSubmitCommand = async () => {
   isRunning.value = false;
 };
 
+// 处理 GPT 请求开始时的操作
+const handleStart = () => {
+  console.log("gpt 请求开始")
+  isRunning.value = true
+}
+
+// 处理 GPT 请求结束后的操作
+const handleFinish = () => {
+  console.log("gpt 请求结束")
+  isRunning.value = false
+}
+
 // 输入框内容改变时，触发输入提示
 watchEffect(() => {
   debounceSetHint(inputCommand.value.text);
@@ -193,6 +205,17 @@ watchEffect(() => {
 const prompt = computed(() => {
   return `[${user.value.username}]$`;
 });
+
+/**
+ * 命令样式
+ */
+const commandInputClass = () => {
+  const classNames = ['command-input'];
+  if (inputCommand.value.text.includes(' ')) {
+    classNames.push('white-background-text');
+  }
+  return classNames.join(' ');
+}
 
 /**
  * 终端主样式

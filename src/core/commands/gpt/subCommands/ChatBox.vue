@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, toRefs, ref } from "vue";
+import { computed, onMounted, toRefs, ref, defineEmits } from "vue";
 import { marked } from 'marked'
 import hljs from "highlight.js";
 
@@ -36,10 +36,13 @@ const result = computed(() => {
   return marked(output.value)
 })
 
+const emit = defineEmits(['start', 'finish']);
+
 onMounted(async () => {
   console.log("message -", message)
   console.log("role -", role)
 
+  emit('start')
   const response = await fetch('http://127.0.0.1:7345/api/gpt/get', {
     method: "POST",
     headers: {
@@ -60,6 +63,7 @@ onMounted(async () => {
     console.log("received data -", value)
     output.value += value?.replace('undefined', '')
   }
+  emit('finish')
 });
 </script>
 
