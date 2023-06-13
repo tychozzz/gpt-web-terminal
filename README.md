@@ -89,6 +89,34 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
      ```bash
      npm run start:dev
      ```
+## GPT 网络与配置问题检测
+
+通过 `GPT Demo`，检测你能否顺利请求到 `Open AI`，确保你网络通畅 且 `API Key` 可用
+
+1. 执行如下命令，进入 `gpt-test-demo` 文件夹，并安装依赖
+
+    ```bash
+    cd gpt-test-demo && npm install
+    ```
+
+2. 在 index.js 文件中配置你的 `API Key`
+
+    ```js
+    const configuration = new Configuration({
+      apiKey: "",
+    });
+    ```
+
+3. 运行 index.js 文件
+
+    ```bash
+    node index.js
+    ```
+
+若顺利输出内容，则说明 `API Key` 有效且网络可访问。
+
+<img width="1017" alt="image" src="https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/40703a2e-a294-40a8-bde7-52bd6882fb48">
+
 
 ## 如何"调教"属于你的 GPT 角色？
 
