@@ -42,6 +42,8 @@ const outputTagColor = computed((): string => {
       return "#c0300f";
     case "system":
       return "#bfc4c9";
+    case "loading":
+      return "#ead029"
     default:
       return "";
   }

@@ -41,7 +41,6 @@ const chatCommand: CommandType = {
 
     // console.log(typeof(res))
 
-    // terminal.writeTextErrorResult("GPT 正在测试中...");
 
     // 调用接口放在 ChatBox 内部去做，传入 ChatBox的参数为用户输入的 message
     const output: ComponentOutputType = {

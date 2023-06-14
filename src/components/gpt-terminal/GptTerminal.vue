@@ -281,6 +281,14 @@ const writeTextErrorResult = (text: string) => {
 };
 
 /**
+ * 写文本等待状态
+ * @param text
+ */
+const writeTextLoadingResult = (text: string) => {
+  writeTextResult(text, "loading");
+}
+
+/**
  * 写文本成功状态结果
  * @param text
  */
@@ -309,6 +317,15 @@ const writeTextOutput = (text: string, status?: OutputStatusType) => {
   };
   outputList.value.push(newOutput);
 };
+
+/**
+ * 移除 outputList 最后一个元素
+ */
+const removeLastOutput = () => {
+  console.log("移除前 - outputList", currentNewCommand.resultList)
+  currentNewCommand.resultList.pop();
+  console.log("移除后 - outputList", currentNewCommand.resultList)
+}
 
 /**
  * 设置命令是否可折叠
@@ -371,10 +388,12 @@ const toggleAllCollapse = () => {
 const terminal: TerminalType = {
   writeTextResult,
   writeTextErrorResult,
+  writeTextLoadingResult,
   writeTextSuccessResult,
   writeResult,
   writeTextOutput,
   writeOutput,
+  removeLastOutput,
   clear,
   focusInput,
   isInputFocused,

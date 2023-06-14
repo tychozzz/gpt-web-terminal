@@ -28,7 +28,7 @@ interface ChatBoxProps {
 const props = withDefaults(defineProps<ChatBoxProps>(), {});
 const { message, role } = toRefs(props);
 
-const output = ref("")
+const output = ref("正在加载内容中...")
 
 const result = computed(() => {
   console.log("output -", output.value)
@@ -41,6 +41,29 @@ const emit = defineEmits(['start', 'finish']);
 onMounted(async () => {
   console.log("message -", message)
   console.log("role -", role)
+
+  // 定时器 loading 效果
+  let count = 0;
+  let loadingInterval = setInterval(() => {
+    count++;
+    if (count > 3) {
+      count = 0;
+    }
+    switch (count) {
+      case 0:
+        output.value = "正在加载内容中";
+        break;
+      case 1:
+        output.value = "正在加载内容中.";
+        break;
+      case 2:
+        output.value = "正在加载内容中..";
+        break;
+      case 3:
+        output.value = "正在加载内容中...";
+        break;
+    }
+  }, 500)
 
   emit('start')
   const response = await fetch('http://127.0.0.1:7345/api/gpt/get', {
@@ -56,6 +79,8 @@ onMounted(async () => {
 
   if (!response.body) return;
   const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+  output.value = ""
+  clearInterval(loadingInterval)
   while (true) {
     var { value, done } = await reader.read();
     if (done) break;

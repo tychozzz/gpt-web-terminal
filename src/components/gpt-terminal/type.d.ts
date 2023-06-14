@@ -1,5 +1,5 @@
 declare namespace GptTerminal {
-  type OutputStatusType = "info" | "success" | "warning" | "error" | "system";
+  type OutputStatusType = "info" | "success" | "warning" | "error" | "system" | "loading";
 
   // 输出父类型
   interface OutputType {
@@ -60,10 +60,14 @@ declare namespace GptTerminal {
     writeTextResult: (text: string, status?: OutputStatusType) => void;
     // 写命令错误文本结果
     writeTextErrorResult: (text: string) => void;
+    // 写命令等待状态 GPT
+    writeTextLoadingResult: (text: string) => void;
     // 写命令成功文本结果
     writeTextSuccessResult: (text: string) => void;
     // 写命令结果
     writeResult: (output: OutputType) => void;
+    // 移除 outputList 最后一个元素
+    removeLastOutput: () => void; 
     // 输入框聚焦
     focusInput: () => void;
     // 获取输入框是否聚焦
