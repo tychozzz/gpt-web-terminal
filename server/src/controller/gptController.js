@@ -4,14 +4,13 @@ const {
 } = require("../thirdpart/gptApi/gptApi");
 
 /**
- * gpt接口
+ * gpt请求输出接口
  * @param event
  * @param req
  * @param ress
  */
 async function getGptOutput(event, req, res) {
   console.log("event - ", event);
-  let outputMessage = "";
   if (event.role === "" || event.role === "default") {
     return await createChatCompletion([
       {

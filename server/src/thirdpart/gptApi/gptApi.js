@@ -9,28 +9,29 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // role - template 缓存
-const roleMap = {}
+const roleMap = {};
 
+// 渲染角色模板
 async function generatePromptMessages(input, role) {
   // 直接从缓存读取
   if (roleMap[role]) {
-    let res = Object.assign(roleMap[role])
-    console.log("命中 roleMap 缓存")
+    let res = Object.assign(roleMap[role]);
+    console.log("命中 roleMap 缓存");
     return [
       ...res,
       {
         role: "user",
         content: input,
       },
-    ]
+    ];
   }
   let template = await loadPromptTemplate(
     path.resolve(__dirname, `./template/${role}.md`)
   );
   console.log("template是：", template);
   // 写入缓存
-  roleMap[role] = template.messages
-  console.log("未命中 roleMap 缓存")
+  roleMap[role] = template.messages;
+  console.log("未命中 roleMap 缓存");
   return [
     ...template.messages,
     {
@@ -40,9 +41,15 @@ async function generatePromptMessages(input, role) {
   ];
 }
 
+// API Key 验证
+async function openaiAuth() {
+  return await openai.listModels();
+}
+
+// 获取 GPT 输出
 async function createChatCompletion(messages) {
   // 如下为 流式数据传输 写法
-  const res = openai.createChatCompletion(
+  const res = await openai.createChatCompletion(
     {
       model: "gpt-3.5-turbo",
       messages,
@@ -52,7 +59,7 @@ async function createChatCompletion(messages) {
       responseType: "stream",
     }
   );
-  return res
+  return res;
 
   // 如下为 非流式数据传输 写法
   // const response = await openai.createChatCompletion({
@@ -71,6 +78,7 @@ async function createChatCompletion(messages) {
 }
 
 module.exports = {
+  openaiAuth,
   generatePromptMessages,
   createChatCompletion,
 };

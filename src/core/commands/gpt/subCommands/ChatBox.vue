@@ -77,16 +77,25 @@ onMounted(async () => {
     }),
   });
 
-  if (!response.body) return;
-  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
-  output.value = ""
-  clearInterval(loadingInterval)
-  while (true) {
-    var { value, done } = await reader.read();
-    if (done) break;
-    value = value?.replace('undefined', '')
-    console.log("received data -", value)
-    output.value += value?.replace('undefined', '')
+  console.log("gpt 响应 -", response)
+
+  if (response.status == 401) {
+    clearInterval(loadingInterval)
+    output.value = "API Key 设置有误，请重新设置后再访问～"
+  } else if (!response.body) {
+    clearInterval(loadingInterval)
+    output.value = "服务器异常，请稍后重试～"
+  } else {
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    clearInterval(loadingInterval)
+    output.value = ""
+    while (true) {
+      var { value, done } = await reader.read();
+      if (done) break;
+      value = value?.replace('undefined', '')
+      console.log("received data -", value)
+      output.value += value?.replace('undefined', '')
+    }
   }
   emit('finish')
 });
