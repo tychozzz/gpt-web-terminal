@@ -89,6 +89,22 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
      ```bash
      npm run start:dev
      ```
+## 项目技术栈
+
+| 前端                   | 后端
+| -------------------- | -------------------- |
+| Vue 3                | Node.js |
+| Vite2                | Express |
+| Ant Design Vue 3 组件库 | MySQL |
+| Pinia 2 状态管理         | Sequelize |
+| TypeScript 类型控制      | Redis |
+| Eslint 代码规范控制        |
+| Prettier 美化代码        |
+| axios 网络请求           |
+| dayjs 时间处理           |
+| lodash 工具库           |
+| getopts 命令参数解析       |
+
 ## GPT 网络与配置问题检测
 
 通过 `GPT Demo`，检测你能否顺利请求到 `Open AI`，确保你网络通畅 且 `API Key` 可用
