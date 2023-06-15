@@ -65,7 +65,19 @@ onMounted(async () => {
     }
   }, 500)
 
+
   emit('start')
+
+  let flag = false;
+  let timeoutTimer = setTimeout(() => {
+    clearInterval(loadingInterval)
+    clearTimeout(timeoutTimer)
+    if (!flag) {
+      emit('finish')
+      output.value = "请求超时，请检查您的网络环境是否配置正确 或 后端是否启动～"
+    }
+  }, 20000)
+
   const response = await fetch('http://127.0.0.1:7345/api/gpt/get', {
     method: "POST",
     headers: {
@@ -97,6 +109,7 @@ onMounted(async () => {
       output.value += value?.replace('undefined', '')
     }
   }
+  flag = true
   emit('finish')
 });
 </script>
