@@ -39,9 +39,19 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 ![gpt-terminal-demo](https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/dee28750-b86b-45a1-a8b2-8357b3e27a25)
 
+## 专栏讲解（持续更新中）
+
+> [耗时一下午，我实现了 GPT Terminal，真正拥有了专属于我的 GPT 终端！](https://juejin.cn/post/7243252896392151097)
+>
+> [如何用 GPT 在 5 分钟内 ”调教“ 出一个专属于你的 ”小黑子“？](https://juejin.cn/post/7244174817679573047)
+> 
+> [如何丝滑实现 GPT 打字机流式回复？Server-Sent Events！](https://juejin.cn/post/7244604894408933432)
+
 ## 功能概览
 
 - 支持命令行终端与 GPT 进行对话，我们程序员就是要用极客范儿的方式与 GPT 交流！
+
+- 支持 GPT 记忆历史对话，给你的 GPT 长长记性～
 
 - 支持 GPT 市面使用最广泛的 Event Stream 技术，实现打字机效果～
 
@@ -151,6 +161,7 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 ## 版本规划
 
 - [ ] 支持自定义 GPT 角色并与当前用户绑定，真正实现定制专属于你的 GPT 机器人～
+- [x] 支持 GPT 记忆历史对话，给你的 GPT 长长记性～
 - [ ] 支持查询最近的 GPT 问答会话，使你与 GPT 的交流真正保存下来～
 - [ ] 支持机器翻译，提供多种翻译选择～
 - [ ] 支持用户在线设置与修改自己的 OpenAI Key，即 Key 与用户绑定～
