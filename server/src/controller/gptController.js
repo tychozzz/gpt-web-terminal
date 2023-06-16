@@ -12,18 +12,10 @@ const {
 async function getGptOutput(event, req, res) {
   console.log("event - ", event);
   if (event.role === "" || event.role === "default") {
-    return await createChatCompletion([
-      {
-        role: "user",
-        content: event.message,
-      },
-    ]);
+    return await createChatCompletion(event.message);
   } else {
-    const inputMessages = await generatePromptMessages(
-      event.message,
-      event.role
-    );
-    return await createChatCompletion(inputMessages);
+    const inputMessages = await generatePromptMessages(event.role);
+    return await createChatCompletion([...inputMessages, ...event.message]);
   }
 }
 

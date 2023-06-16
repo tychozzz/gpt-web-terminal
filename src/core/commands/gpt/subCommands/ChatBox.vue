@@ -6,6 +6,8 @@
 import { computed, onMounted, toRefs, ref, defineEmits } from "vue";
 import { marked } from 'marked'
 import hljs from "highlight.js";
+import {useMessagesStore} from "../messagesStore"
+import { storeToRefs } from "pinia";
 
 marked.setOptions({
   // 使用默认的渲染类
@@ -27,6 +29,10 @@ interface ChatBoxProps {
 
 const props = withDefaults(defineProps<ChatBoxProps>(), {});
 const { message, role } = toRefs(props);
+
+// 历史消息
+const messagesStore = useMessagesStore();
+const { messages } = storeToRefs(messagesStore);
 
 const output = ref("正在加载内容中...")
 
@@ -69,6 +75,8 @@ onMounted(async () => {
   emit('start')
 
   let flag = false;
+
+  // 延时器
   let timeoutTimer = setTimeout(() => {
     clearInterval(loadingInterval)
     clearTimeout(timeoutTimer)
@@ -76,15 +84,19 @@ onMounted(async () => {
       emit('finish')
       output.value = "请求超时，请检查您的网络环境是否配置正确 或 后端是否启动～"
     }
-  }, 20000)
+  }, 35000)
 
   const response = await fetch('http://127.0.0.1:7345/api/gpt/get', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    // 投喂历史消息
     body: JSON.stringify({
-      message: message.value,
+      message: [...messages.value, {
+        role: "user",
+        content: message.value
+      }],
       role: role.value,
     }),
   });
@@ -109,6 +121,17 @@ onMounted(async () => {
       output.value += value?.replace('undefined', '')
     }
   }
+
+  // 记录历史消息
+  messages.value.push({
+    role: "user",
+    content: message.value
+  }, {
+    role: "assistant",
+    content: output.value
+  })
+
+  // 关闭延时器
   flag = true
   emit('finish')
 });

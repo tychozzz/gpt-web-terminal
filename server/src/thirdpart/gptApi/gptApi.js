@@ -12,18 +12,12 @@ const openai = new OpenAIApi(configuration);
 const roleMap = {};
 
 // 渲染角色模板
-async function generatePromptMessages(input, role) {
+async function generatePromptMessages(role) {
   // 直接从缓存读取
   if (roleMap[role]) {
     let res = Object.assign(roleMap[role]);
     console.log("命中 roleMap 缓存");
-    return [
-      ...res,
-      {
-        role: "user",
-        content: input,
-      },
-    ];
+    return res;
   }
   let template = await loadPromptTemplate(
     path.resolve(__dirname, `./template/${role}.md`)
@@ -32,13 +26,7 @@ async function generatePromptMessages(input, role) {
   // 写入缓存
   roleMap[role] = template.messages;
   console.log("未命中 roleMap 缓存");
-  return [
-    ...template.messages,
-    {
-      role: "user",
-      content: input,
-    },
-  ];
+  return template.messages;
 }
 
 // API Key 验证
