@@ -123,10 +123,11 @@ onMounted(async () => {
   }
 
   // 记录历史消息
-  messages.value.push({
+  messagesStore.addMessage({
     role: "user",
     content: message.value
-  }, {
+  })
+  messagesStore.addMessage({
     role: "assistant",
     content: output.value
   })
