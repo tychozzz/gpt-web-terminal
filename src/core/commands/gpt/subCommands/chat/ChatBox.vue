@@ -6,19 +6,15 @@
 import { computed, onMounted, toRefs, ref, defineEmits } from "vue";
 import { marked } from 'marked'
 import hljs from "highlight.js";
-import {useMessagesStore} from "../messagesStore"
+import {useMessagesStore} from "../../messagesStore"
 import { storeToRefs } from "pinia";
 
 marked.setOptions({
-  // 使用默认的渲染类
   renderer: new marked.Renderer,
-  // GitHub Flavored Markdown, 生成 GitHub 格式。
   gfm: true,
-  // 异步解析
   async: false,
-  // 高亮函数，使用 highlight.js。本来还有第三个参数作为发生错误时的回调。
-  highlight(code: string, language: string): string {
-    return hljs.highlight(code, { language, ignoreIllegals: true }).value
+  highlight(code: string): string {
+    return hljs.highlightAuto(code).value
   },
 })
 
@@ -93,7 +89,7 @@ onMounted(async () => {
     },
     // 投喂历史消息
     body: JSON.stringify({
-      message: [...messages.value, {
+      message: [...(messages.value.map(({ role, content }) => ({ role, content }))), {
         role: "user",
         content: message.value
       }],
@@ -124,10 +120,12 @@ onMounted(async () => {
 
   // 记录历史消息
   messagesStore.addMessage({
+    name: role.value,
     role: "user",
     content: message.value
   })
   messagesStore.addMessage({
+    name: role.value,
     role: "assistant",
     content: output.value
   })

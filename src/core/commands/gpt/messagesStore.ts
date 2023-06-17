@@ -1,6 +1,8 @@
+import { context } from "ant-design-vue/lib/vc-image/src/PreviewGroup";
 import { defineStore } from "pinia";
 
 interface Message {
+  name: string;
   role: string;
   content: string;
 }
@@ -10,10 +12,14 @@ export const useMessagesStore = defineStore("messages", {
     messages: [] as Message[]
   }),
   getters: {},
+  persist: {
+    key: "gpt-messages",
+    storage: window.localStorage,
+  },
   actions: {
     addMessage(msg: Message) {
       const {messages} = this.$state
-      if (messages.length >= 10) {
+      if (messages.length >= 20) {
         messages.shift()
       }
       messages.push(msg)

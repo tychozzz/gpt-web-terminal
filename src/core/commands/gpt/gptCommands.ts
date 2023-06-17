@@ -1,8 +1,9 @@
 import { CommandType } from "../../command";
-import chatCommand from "./subCommands/chatCommand";
+import chatCommand from "./subCommands/chat/chatCommand";
 import { defineAsyncComponent } from "vue";
 import ComponentOutputType = GptTerminal.ComponentOutputType;
-import roleCommand from "./subCommands/roleCommand";
+import roleCommand from "./subCommands/role/roleCommand";
+import historyCommand from "./subCommands/history/historyCommand";
 
 /**
  * gpt命令
@@ -14,13 +15,14 @@ const gptCommand: CommandType = {
   subCommands: {
     chat: chatCommand,
     role: roleCommand,
+    history: historyCommand,
   },
   options: [],
   async action(options, terminal) {
     const output: ComponentOutputType = {
       type: "component",
       component: defineAsyncComponent(
-        () => import("./subCommands/ChatBox.vue")
+        () => import("./subCommands/chat/ChatBox.vue")
       ),
       props: {
         message: "您好，我是 「GPT Terminal」 机器人，请问我能为您做些什么呢？",

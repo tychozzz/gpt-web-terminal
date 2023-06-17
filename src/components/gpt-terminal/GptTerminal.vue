@@ -79,6 +79,10 @@ import useHint from "./hint";
 import UserType = User.UserType;
 import { LOCAL_USER } from "../../core/commands/user/userConstant";
 import { defineStore } from "pinia";
+import { useMessagesStore } from "../../core/commands/gpt/messagesStore";
+
+const messagesStore = useMessagesStore();
+const messages = messagesStore.$state.messages;
 
 interface GptTerminalProps {
   height?: string | number;
@@ -383,6 +387,13 @@ const toggleAllCollapse = () => {
 };
 
 /**
+ * GPT 历史对话记录
+ */
+const listGptHistory = () => {
+  return messages
+}
+
+/**
  * 操作终端的对象
  */
 const terminal: TerminalType = {
@@ -404,6 +415,7 @@ const terminal: TerminalType = {
   listCommandHistory,
   toggleAllCollapse,
   setCommandCollapsible,
+  listGptHistory,
 };
 
 /**

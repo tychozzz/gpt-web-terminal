@@ -1,8 +1,8 @@
-import { CommandType } from "../../../command";
-import { getGptOutput } from "../gptApi";
+import { CommandType } from "../../../../command";
+import { getGptOutput } from "../../gptApi";
 import { defineAsyncComponent } from "vue";
 import ComponentOutputType = GptTerminal.ComponentOutputType;
-import { roleMap } from "./roles";
+import { roleMap } from "../role/roles";
 
 const chatCommand: CommandType = {
   func: "chat",
