@@ -103,5 +103,7 @@ declare namespace GptTerminal {
     setCommandCollapsible: (collapsible: boolean) => void;
     // GPT 历史对话记录
     listGptHistory: () => MessageType[];
+    // 终止当前命令运行
+    terminateCurrentCommand: () => void;
   }
 }

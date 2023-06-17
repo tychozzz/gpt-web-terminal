@@ -69,14 +69,23 @@ export const shortcutList: ShortcutType[] = [
       terminal.toggleAllCollapse();
     },
   },
+  // {
+  //   desc: "粘贴",
+  //   code: "KeyV",
+  //   keyDesc: "Ctrl + V",
+  //   metaKey: true,
+  //   action(e, terminal) {
+  //     terminal.focusInput();
+  //   },
+  // },
   {
-    desc: "粘贴",
-    code: "KeyV",
-    keyDesc: "Ctrl + V",
-    metaKey: true,
+    desc: "终止命令",
+    code: "KeyC",
+    keyDesc: "Ctrl + C",
+    ctrlKey: true,
     action(e, terminal) {
-      terminal.focusInput();
-    },
+      terminal.terminateCurrentCommand();
+    }
   },
   {
     code: "Tab",

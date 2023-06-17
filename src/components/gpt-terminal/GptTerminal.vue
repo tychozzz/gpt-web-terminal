@@ -394,6 +394,34 @@ const listGptHistory = () => {
 }
 
 /**
+ * 终止命令运行
+ */
+const terminateCurrentCommand = () => {
+  // GPT 输出过程中不允许执行终止命令
+  if (isRunning.value == true) {
+    return
+  }
+  console.log("终止！!")
+  isRunning.value = true;
+  setHint("");
+  let inputText = inputCommand.value.text;
+  const newCommand: CommandOutputType = {
+    text: inputText,
+    type: "command",
+    resultList: [],
+  };
+  outputList.value.push(newCommand);
+  inputCommand.value = { ...initCommand };
+  // 默认展开折叠面板
+  activeKeys.value.push(outputList.value.length - 1);
+  // 自动滚到底部
+  setTimeout(() => {
+    terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
+  }, 50);
+  isRunning.value = false;
+}
+
+/**
  * 操作终端的对象
  */
 const terminal: TerminalType = {
@@ -416,6 +444,7 @@ const terminal: TerminalType = {
   toggleAllCollapse,
   setCommandCollapsible,
   listGptHistory,
+  terminateCurrentCommand,
 };
 
 /**
