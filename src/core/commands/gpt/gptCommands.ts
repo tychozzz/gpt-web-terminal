@@ -4,6 +4,7 @@ import { defineAsyncComponent } from "vue";
 import ComponentOutputType = GptTerminal.ComponentOutputType;
 import roleCommand from "./subCommands/role/roleCommand";
 import historyCommand from "./subCommands/history/historyCommand";
+import diyCommand from "./subCommands/diy/diyCommand";
 
 /**
  * gpt命令
@@ -16,6 +17,7 @@ const gptCommand: CommandType = {
     chat: chatCommand,
     role: roleCommand,
     history: historyCommand,
+    diy: diyCommand,
   },
   options: [],
   async action(options, terminal) {

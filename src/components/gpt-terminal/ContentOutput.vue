@@ -9,6 +9,7 @@
     <component
       @start="handleStart"
       @finish="handleFinish"
+      @failed="handleFailed"
       :is="output.component"
       v-if="output.type === 'component'"
       v-bind="output.props ?? {}"
@@ -49,7 +50,7 @@ const outputTagColor = computed((): string => {
   }
 });
 
-const emit = defineEmits(['start', 'finish'])
+const emit = defineEmits(['start', 'finish', 'failed'])
 
 // gpt 输出开始时的回调
 const handleStart = () => {
@@ -59,6 +60,10 @@ const handleStart = () => {
 // gpt 输出结束后的回调
 const handleFinish = () => {
   emit('finish')
+}
+
+const handleFailed = () => {
+  emit('failed')
 }
 </script>
 

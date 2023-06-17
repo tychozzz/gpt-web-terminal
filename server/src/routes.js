@@ -23,6 +23,10 @@ const routes = [
     path: "/gpt/get",
     handler: require("./controller/gptController").getGptOutput,
   },
+  {
+    path: "/role/create",
+    handler: require("./controller/roleController").roleCreateApi,
+  },
 ];
 
 module.exports = routes;

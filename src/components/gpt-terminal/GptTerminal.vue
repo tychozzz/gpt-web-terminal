@@ -26,7 +26,7 @@
                 <span>{{ output.text }}</span>
               </div>
               <div v-for="(result, idx) in output?.resultList" :key="idx" class="terminal-row">
-                <content-output @start="handleStart" @finish="handleFinish" :output="result" />
+                <content-output @start="handleStart" @finish="handleFinish" @failed="handleFailed" :output="result" />
               </div>
             </template>
             <!-- 打印信息 -->
@@ -196,6 +196,10 @@ const handleStart = () => {
 const handleFinish = () => {
   console.log("结束")
   isRunning.value = false
+}
+
+const handleFailed = () => {
+  console.log("失败")
 }
 
 // 输入框内容改变时，触发输入提示
