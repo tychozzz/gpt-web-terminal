@@ -16,8 +16,17 @@ interface CommandType {
     terminal: TerminalType,
     parentCommand?: CommandType
   ) => void;
+  // 执行子功能
+  subAction?: (
+    options?: ParsedOptions,
+    terminal: TerminalType,
+    params?: Record<string, T>,
+    parentCommand?: CommandType,
+  ) => void;
   // 结果是否允许折叠
   collapsible?: boolean;
+  // 是否需要用户登录下才可访问
+  requireAuth?: boolean | false;
 }
 
 // 命令参数类型

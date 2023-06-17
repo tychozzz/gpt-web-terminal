@@ -188,13 +188,13 @@ const doSubmitCommand = async () => {
 
 // 处理 GPT 请求开始时的操作
 const handleStart = () => {
-  console.log("gpt 请求开始")
+  console.log("开始")
   isRunning.value = true
 }
 
 // 处理 GPT 请求结束后的操作
 const handleFinish = () => {
-  console.log("gpt 请求结束")
+  console.log("结束")
   isRunning.value = false
 }
 
@@ -422,6 +422,13 @@ const terminateCurrentCommand = () => {
 }
 
 /**
+ * 判断当前用户是否已登陆
+ */
+const getLoginUser = () => {
+  return user.value
+}
+
+/**
  * 操作终端的对象
  */
 const terminal: TerminalType = {
@@ -445,6 +452,7 @@ const terminal: TerminalType = {
   setCommandCollapsible,
   listGptHistory,
   terminateCurrentCommand,
+  getLoginUser,
 };
 
 /**

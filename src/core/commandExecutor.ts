@@ -13,7 +13,12 @@ export const doCommandExecute = async (
   if (!text) {
     return;
   }
-  const command: CommandType = getCommand(text, parentCommand);
+  const command: CommandType | any = getCommand(terminal, text, parentCommand);
+  console.log("command", command);
+  if (command == "403") {
+    terminal.writeTextErrorResult("请登录后再使用此命令");
+    return;
+  }
   if (!command) {
     terminal.writeTextErrorResult("找不到命令");
     return;
@@ -32,7 +37,11 @@ export const doCommandExecute = async (
   await doAction(command, parsedOptions, terminal, parentCommand);
 };
 
-const getCommand = (text: string, parentCommand?: CommandType): CommandType => {
+const getCommand = (
+  terminal: TerminalType,
+  text: string,
+  parentCommand?: CommandType
+): CommandType | string => {
   let func = text.split(" ", 1)[0];
   func = func.toLowerCase();
   let commands = commandMap;
@@ -44,6 +53,11 @@ const getCommand = (text: string, parentCommand?: CommandType): CommandType => {
     commands = parentCommand.subCommands;
   }
   const command = commands[func];
+  // 如果命令需要用户登录，则需要判断用户是否处于登陆态
+  if (command.requireAuth && terminal.getLoginUser().username == "local") {
+    console.log("鉴权失败");
+    return "403";
+  }
   console.log("getCommand = ", command);
   return command;
 };
