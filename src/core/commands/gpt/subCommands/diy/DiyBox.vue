@@ -1,12 +1,11 @@
 <template>
   <div @keydown="handleKeyDown">
     <div v-for="(output, index) in displayList" :key="index">
-      {{ output }}
+      <span :style="{ color: index % 2 !== 0 ? '' : '#ec61ad' }">{{ output }}</span>
     </div>
     <div class="terminal-row">
       <a-input ref="inputRef" v-if="!finished" v-model:value="input" autofocus @press-enter="doSubmit"
         class="command-input white-background-text" :bordered="false">
-
       </a-input>
     </div>
   </div>
