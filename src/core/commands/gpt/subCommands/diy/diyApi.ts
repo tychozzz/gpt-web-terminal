@@ -18,3 +18,9 @@ export const createRole = async (
     roleElementList,
   });
 };
+
+export const hasRole = async (keyword: string) => {
+  return await myAxios.post("/role/getRoleElementsByKeyword", {
+    keyword,
+  });
+};

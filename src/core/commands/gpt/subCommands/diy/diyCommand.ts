@@ -1,6 +1,8 @@
 import { CommandType } from "../../../../command";
 import { defineAsyncComponent } from "vue";
 import ComponentOutputType = GptTerminal.ComponentOutputType;
+import { hasRole } from "./diyApi";
+import { roleMap } from "../role/roles";
 
 const diyCommand: CommandType = {
   func: "diy",
@@ -13,7 +15,7 @@ const diyCommand: CommandType = {
       desc: "GPT 角色唯一标识",
       alias: ["k"],
       type: "string",
-      required: true
+      required: true,
     },
     {
       key: "name",
@@ -45,6 +47,15 @@ const diyCommand: CommandType = {
       terminal.writeTextErrorResult("角色描述必填");
       return;
     }
+    if (roleMap.has(keyword)) {
+      terminal.writeTextErrorResult("当前角色已存在，且为系统默认角色");
+      return;
+    }
+    const res: any = await hasRole(keyword);
+    if (res?.code === 0) {
+      terminal.writeTextErrorResult("当前角色已存在");
+      return;
+    }
     terminal.writeTextResult(
       "💌 请开始定制您角色的专属 Case 吧，注意最多只接受 5 个 Case 哦～"
     );
@@ -54,11 +65,11 @@ const diyCommand: CommandType = {
       props: {
         keyword: keyword,
         name: name,
-        description: desc
-      }
+        description: desc,
+      },
     };
     terminal.writeResult(diyBox);
-  }
+  },
 };
 
 export default diyCommand;
