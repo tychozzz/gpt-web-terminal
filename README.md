@@ -46,6 +46,8 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 > [如何用 GPT 在 5 分钟内 ”调教“ 出一个专属于你的 ”小黑子“？](https://juejin.cn/post/7244174817679573047)
 > 
 > [如何丝滑实现 GPT 打字机流式回复？Server-Sent Events！](https://juejin.cn/post/7244604894408933432)
+> 
+> [我是如何让我的 GPT Terminal “长记性” 的？还是老配方！](https://juejin.cn/post/7245812754027823160)
 
 ## 功能概览
 
