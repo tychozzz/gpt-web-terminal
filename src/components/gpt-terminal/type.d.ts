@@ -55,16 +55,21 @@ declare namespace GptTerminal {
   /**
    * GPT 对话记录类型
    */
-  interface MessageType {
-    name: string;
+  interface MessageElement {
     role: string;
     content: string;
+  }
+  
+  interface MessageType {
+    roleKeyword: string | "default";
+    messageElements: MessageElement[];
   }
 
   /**
    * 用户属性
    */
   interface UserType {
+    id: number;
     username: string;
     email?: string;
     creatTime?: date;

@@ -78,6 +78,7 @@ class ExpressServer {
     const handler = async (req, res) => {
       console.log("req 路径", req.path);
       console.log("req 请求体", req.body);
+      console.log("req session", req.session);
       // 单独处理 gpt 流式请求
       if (req.path == "/api/gpt/get") {
         await handleStream(res, req, handlerFunction);

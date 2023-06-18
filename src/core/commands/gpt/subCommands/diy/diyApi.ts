@@ -6,12 +6,14 @@ interface RoleElement {
 }
 
 export const createRole = async (
-  roleName: string,
+  keyword: string,
+  name: string,
   description: string,
   roleElementList: RoleElement[]
 ) => {
   return await myAxios.post("/role/create", {
-    roleName,
+    keyword,
+    name,
     description,
     roleElementList,
   });

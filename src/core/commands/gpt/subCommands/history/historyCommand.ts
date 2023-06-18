@@ -25,24 +25,35 @@ const historyCommand: CommandType = {
   // 输入5，对应8
   async action(options, terminal) {
     const { position } = options;
-    const messages = terminal.listGptHistory()
+    const messages = terminal.listGptHistory();
+    console.log("messages:", messages);
+    // const len = messages.reduce(
+    //   (acc, cur) => acc + cur.messageElements.length,
+    //   0
+    // );
     // 列出全部 gpt 用户提问记录
+    const allMessages: any = [];
+    messages.forEach((message) => {
+      message?.messageElements?.forEach((e) => {
+        allMessages.push({ ...e, roleKeyword: message.roleKeyword });
+      });
+    });
     if (!position) {
       let index = 1;
-      messages.forEach((message) => {
-        if (message.role == "user") {
+      allMessages?.forEach((e: any) => {
+        if (e.role == "user") {
           terminal.writeTextResult(
-            `${index} gpt chat -r ${message.name} ${message.content}`
+            `${index} gpt chat -r ${e.roleKeyword} ${e.content}`
           );
           index += 1;
         }
       });
-    } else if (position < 1 || position * 2 > messages.length) {
+    } else if (position < 1 || position * 2 > allMessages.length) {
       terminal.writeTextErrorResult("输入序号有误，请重新输入～");
     } else {
-      const inputMessage = messages[(position - 1) * 2];
-      const gptCommand = `gpt chat -r ${inputMessage.name} ${inputMessage.content}`;
-      const outputMessage = messages[(position - 1) * 2 + 1];
+      const inputMessage = allMessages[(position - 1) * 2];
+      const gptCommand = `gpt chat -r ${inputMessage.roleKeyword} ${inputMessage.content}`;
+      const outputMessage = allMessages[(position - 1) * 2 + 1];
       const gptOutput = outputMessage.content;
       const recordBox: ComponentOutputType = {
         type: "component",

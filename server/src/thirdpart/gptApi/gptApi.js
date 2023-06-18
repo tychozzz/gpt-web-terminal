@@ -36,6 +36,7 @@ async function openaiAuth() {
 
 // 获取 GPT 输出
 async function createChatCompletion(messages) {
+  console.log("inputMessages", messages);
   // 如下为 流式数据传输 写法
   const res = await openai.createChatCompletion(
     {

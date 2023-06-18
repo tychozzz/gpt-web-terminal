@@ -9,23 +9,34 @@ const diyCommand: CommandType = {
   requireAuth: true,
   options: [
     {
+      key: "keyword",
+      desc: "GPT 角色唯一标识",
+      alias: ["k"],
+      type: "string",
+      required: true
+    },
+    {
       key: "name",
-      desc: "GPT角色名",
+      desc: "GPT 角色名",
       alias: ["n"],
       type: "string",
       required: true,
     },
     {
       key: "desc",
-      desc: "角色描述，建议以 “从现在开始，你是一个xxx”开头",
+      desc: "GPT 角色描述",
       alias: ["d"],
       type: "string",
       required: true,
     },
   ],
   async action(options, terminal) {
-    const { name, desc } = options;
+    const { keyword, name, desc } = options;
     // TODO:用户自定义角色后，需要包含进来
+    if (!keyword) {
+      terminal.writeTextErrorResult("角色唯一标识必填");
+      return;
+    }
     if (!name) {
       terminal.writeTextErrorResult("角色名称必填");
       return;
@@ -41,7 +52,8 @@ const diyCommand: CommandType = {
       type: "component",
       component: defineAsyncComponent(() => import("./DiyBox.vue")),
       props: {
-        roleName: name,
+        keyword: keyword,
+        name: name,
         description: desc
       }
     };

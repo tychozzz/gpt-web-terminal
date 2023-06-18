@@ -25,6 +25,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { roleMap } from "./roles";
+import { useUserStore } from "../../../user/userStore";
+import { storeToRefs } from "pinia";
+import { listRoleByUserId } from './roleApi'
 
 interface Role {
   keyword?: string
@@ -40,6 +43,10 @@ interface Columns {
 
 const roles = ref<Role[]>([])
 const columns = ref<Columns[]>([])
+
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
+
 columns.value = [
   {
     title: 'keyword',
@@ -58,15 +65,26 @@ columns.value = [
   },
 ],
 
-  roleMap.forEach((value: Role, key: string) => {
-    roles.value.push({
-      keyword: key,
-      name: value.name,
-      desc: value.desc
+  onMounted(async () => {
+    roleMap.forEach((value: Role, key: string) => {
+      roles.value.push({
+        keyword: key,
+        name: value.name,
+        desc: value.desc
+      })
     })
-  })
-
-onMounted(() => { });
+    if (loginUser.value.username != 'local') {
+      let res: any = await listRoleByUserId()
+      console.log(res)
+      res.data.forEach((r: any) => {
+        roles.value.push({
+          keyword: r.keyword,
+          name: r.name,
+          desc: r.description
+        })
+      })
+    }
+  });
 </script>
 
 <style scoped>

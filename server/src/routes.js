@@ -27,6 +27,14 @@ const routes = [
     path: "/role/create",
     handler: require("./controller/roleController").roleCreateApi,
   },
+  {
+    path: "/role/listByUserId",
+    handler: require("./controller/roleController").roleListByUserIdApi,
+  },
+  {
+    path: "/role/getRoleElementsByKeyword",
+    handler: require("./controller/roleController").getRoleElementsByKeywordApi,
+  },
 ];
 
 module.exports = routes;

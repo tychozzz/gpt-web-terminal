@@ -24,12 +24,13 @@ const index = ref(0)
 const input = ref("")
 
 interface DiyBoxProps {
-  roleName: string,
+  keyword: string,
+  name: string,
   description: string,
 }
 
 const props = withDefaults(defineProps<DiyBoxProps>(), {});
-const { roleName, description } = toRefs(props);
+const { keyword, name, description } = toRefs(props);
 
 interface RoleElement {
   name: string;
@@ -60,18 +61,32 @@ const handleKeyDown = (e: any) => {
   }
 }
 
+// 判断用户是否已定义角色
+const flag = ref(false)
+
 const doSubmit = async () => {
   let idx = index.value % 3
   let term = Math.floor(index.value / 3)
   if (idx == 0) {
-    roleElementList.value.push({
-      name: "user",
-      content: input.value
-    })
-    displayList.value.push(input.value)
-    displayList.value.push(`💯 请输入示例 Answer ${term + 1}`)
-    input.value = ''
-    index.value += 1
+    if (flag.value) {
+      roleElementList.value.push({
+        name: "user",
+        content: input.value
+      })
+      displayList.value.push(input.value)
+      displayList.value.push(`💯 请输入示例 Answer ${term + 1}`)
+      input.value = ''
+      index.value += 1
+    } else {
+      roleElementList.value.push({
+        name: "system",
+        content: input.value
+      })
+      displayList.value.push(input.value)
+      displayList.value.push("🙋 请输入示例 Prompt 1")
+      input.value = ''
+      flag.value = true
+    }
   } else if (idx == 1) {
     roleElementList.value.push({
       name: "assistant",
@@ -98,7 +113,7 @@ const doSubmit = async () => {
       input.value == 'Y' ||
       term + 1 == 5) {
       displayList.value.push(input.value)
-      const res: any = await createRole(roleName.value, description.value, roleElementList.value)
+      const res: any = await createRole(keyword.value, name.value, description.value, roleElementList.value)
       if (res?.code !== 0) {
         emit('finish')
         input.value = ''
@@ -133,7 +148,8 @@ const doSubmit = async () => {
 onMounted(async () => {
   window.addEventListener('keydown', handleKeyDown)
   emit('start')
-  displayList.value.push("🙋 请输入示例 Prompt 1")
+  displayList.value.push("✍️ 请定义当前角色，建议以 ‘从现在开始，你是 xxx‘ 的格式开头")
+  // 
 });
 </script>
 

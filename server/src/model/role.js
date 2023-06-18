@@ -18,7 +18,11 @@ const RoleModel = sequelize.define(
       type: DataTypes.BIGINT,
       allowNull: false,
     },
-    roleName: {
+    keyword: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
