@@ -92,19 +92,21 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
      -   你需要将 Redis、MySQL 与 GPT 更改为你自己的配置
 
-4.   运行前端
+4.   将 `server/db/gpt_terminal.sql` 导入 MySQL 数据库中
+
+5.   运行前端
 
      ```bash
      npm run dev
      ```
 
-5.   运行后端
+6.   运行后端
 
      ```bash
      npm run start:dev
      ```
 
-6.  快速解锁命令用法 - 命令行中使用help命令查询使用方法
+7.  快速解锁命令用法 - 命令行中使用help命令查询使用方法
 
     ```bash
     # 查询全部命令帮助
