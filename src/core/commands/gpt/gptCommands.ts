@@ -5,6 +5,7 @@ import ComponentOutputType = GptTerminal.ComponentOutputType;
 import roleCommand from "./subCommands/role/roleCommand";
 import historyCommand from "./subCommands/history/historyCommand";
 import diyCommand from "./subCommands/diy/diyCommand";
+import imageCommand from "./subCommands/image/imageCommand";
 
 /**
  * gpt命令
@@ -18,6 +19,7 @@ const gptCommand: CommandType = {
     role: roleCommand,
     history: historyCommand,
     diy: diyCommand,
+    image: imageCommand,
   },
   options: [],
   async action(options, terminal) {

@@ -24,6 +24,10 @@ const routes = [
     handler: require("./controller/gptController").getGptOutput,
   },
   {
+    path: "/gpt/getImage",
+    handler: require("./controller/gptController").getGptImage,
+  },
+  {
     path: "/role/create",
     handler: require("./controller/roleController").roleCreateApi,
   },

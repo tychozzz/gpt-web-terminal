@@ -25,7 +25,7 @@ const chatCommand: CommandType = {
   async action(options, terminal) {
     const { _, role } = options;
     if (_.length < 1) {
-      terminal.writeTextErrorResult("内容为空");
+      terminal.writeTextErrorResult("内容不可为空");
       return;
     }
     // TODO:用户自定义角色后，需要包含进来

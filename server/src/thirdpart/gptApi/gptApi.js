@@ -66,8 +66,23 @@ async function createChatCompletion(messages) {
   // throw new Error("Failed to get response from OpenAI service.");
 }
 
+// 获取 GPT 生成的 Image
+async function createImage(prompt, number = 1, size = "256x256") {
+  const res = await openai.createImage({
+    prompt: prompt,
+    n: number,
+    size: size,
+  });
+  console.log(res.data.data);
+  if (res?.data?.data && res?.data?.data?.length) {
+    return res.data.data;
+  }
+  throw new Error("Failed to get response from OpenAI service.");
+}
+
 module.exports = {
   openaiAuth,
   generatePromptMessages,
   createChatCompletion,
+  createImage,
 };
