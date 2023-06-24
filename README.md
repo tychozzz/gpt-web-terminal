@@ -22,18 +22,13 @@ _✨ 用程序员的方式，打开GPT！定制专属于你的 GPT 终端 ✨_
 
 </div>
 
-## 特别鸣谢
-
-该项目灵感来源于 [YuIndex](https://github.com/liyupi/yuindex)，并最终将其改造为 「GPT Terminal」
-
-- [@程序员鱼皮](https://github.com/liyupi)
-- [@MagicCube](https://github.com/MagicCube)
-
 ## 简介
 
 GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 在这里，你可以更加轻易地实现更多定制化的功能，拥有专属于你的 GPT 终端！
+
+项目基于 Vue3 与 Express 实现
 
 ## 预览
 
@@ -125,22 +120,6 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
     gpt history -h
     ```
 
-## 项目技术栈
-
-| 前端                   | 后端
-| -------------------- | -------------------- |
-| Vue 3                | Node.js |
-| Vite2                | Express |
-| Ant Design Vue 3 组件库 | MySQL |
-| Pinia 2 状态管理         | Sequelize |
-| TypeScript 类型控制      | Redis |
-| Eslint 代码规范控制        |
-| Prettier 美化代码        |
-| axios 网络请求           |
-| dayjs 时间处理           |
-| lodash 工具库           |
-| getopts 命令参数解析       |
-
 ## GPT 网络与配置问题检测
 
 通过 `GPT Demo`，检测你能否顺利请求到 `Open AI`，确保你网络通畅 且 `API Key` 可用
@@ -224,6 +203,15 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 - [ ] 引入角色市场
 
 各位敬请期待～
+
+## 特别鸣谢
+
+该项目灵感来源于 [YuIndex](https://github.com/liyupi/yuindex)，并最终将其改造为 「GPT Terminal」
+
+- [@程序员鱼皮](https://github.com/liyupi)
+- [@MagicCube](https://github.com/MagicCube)
+- [@Overtrue](https://github.com/Overtrue)
+
 
 ## 开源协议
 
