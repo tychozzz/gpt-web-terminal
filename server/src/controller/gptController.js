@@ -23,14 +23,17 @@ const MyError = require("../exception");
 async function getGptOutput(event, req, res) {
   console.log("event -", event);
   if (event.role === "" || event.role === "default") {
-    return await createChatCompletion(event.message);
+    return await createChatCompletion(event.message, event.temperature);
   } else if (defaultRoles.includes(event.role)) {
     // 默认角色 - 读取本地文件
     let inputMessages = await generatePromptMessages(event.role);
-    return await createChatCompletion([...inputMessages, ...event.message]);
+    return await createChatCompletion(
+      [...inputMessages, ...event.message],
+      event.temperature
+    );
   } else {
     // 用户自定义角色 - 读取数据库
-    return await createChatCompletion(event.message);
+    return await createChatCompletion(event.message, event.temperature);
   }
 }
 
@@ -46,7 +49,10 @@ async function getGptImage(event, req, res) {
   }
 
   if (event.number && (event.number > 5 || event.number < 1)) {
-    throw new MyError(REQUEST_PARAMS_ERROR_CODE, "图片数量必须为1～5之间的整数");
+    throw new MyError(
+      REQUEST_PARAMS_ERROR_CODE,
+      "图片数量必须为1～5之间的整数"
+    );
   }
   if (
     event.size &&

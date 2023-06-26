@@ -35,7 +35,7 @@ async function openaiAuth() {
 }
 
 // 获取 GPT 输出
-async function createChatCompletion(messages) {
+async function createChatCompletion(messages, temperature) {
   console.log("inputMessages", messages);
   // 如下为 流式数据传输 写法
   const res = await openai.createChatCompletion(
@@ -43,6 +43,7 @@ async function createChatCompletion(messages) {
       model: "gpt-3.5-turbo",
       messages,
       stream: true,
+      temperature: temperature ? temperature : 1,
     },
     {
       responseType: "stream",

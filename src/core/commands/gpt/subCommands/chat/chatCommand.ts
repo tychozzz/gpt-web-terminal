@@ -16,30 +16,42 @@ const chatCommand: CommandType = {
   options: [
     {
       key: "role",
-      desc: "GPT角色名, 有 default / cli / translator / sql / ikun 五种默认角色可供选择",
+      desc: "GPT 角色名, 有 default / cli / translator / sql / ikun 五种默认角色可供选择",
       alias: ["r"],
       type: "string",
       defaultValue: "default",
     },
+    {
+      key: "temperature",
+      desc: "GPT 采样温度，介于 0 ～ 2 之间，值越大输出越随机",
+      alias: ["t"],
+      type: "string",
+      defaultValue: "1",
+    },
   ],
   async action(options, terminal) {
-    const { _, role } = options;
+    const { _, role, temperature } = options;
     if (_.length < 1) {
       terminal.writeTextErrorResult("内容不可为空");
       return;
     }
-    // TODO:用户自定义角色后，需要包含进来
-    // if (!roleMap.has(role)) {
-    //   terminal.writeTextErrorResult("角色不存在");
-    //   return;
-    // }
+    if (temperature) {
+      if (
+        isNaN(temperature) ||
+        Number(temperature) < 0 ||
+        Number(temperature) > 2
+      ) {
+        terminal.writeTextErrorResult("temperature 必须为 0 ～ 2 之间的整数");
+        return;
+      }
+    }
+
     const message = _.join(" ");
     // const res: any = await getGptOutput(message, role);
 
     // console.log(res);
 
     // console.log(typeof(res))
-
 
     // 调用接口放在 ChatBox 内部去做，传入 ChatBox的参数为用户输入的 message
     const output: ComponentOutputType = {
@@ -48,6 +60,7 @@ const chatCommand: CommandType = {
       props: {
         message: message,
         role: role,
+        temperature: Number(temperature),
       },
     };
     terminal.writeResult(output);

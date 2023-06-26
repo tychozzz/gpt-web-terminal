@@ -24,10 +24,11 @@ marked.setOptions({
 interface ChatBoxProps {
   message: string;
   role: string;
+  temperature: number;
 }
 
 const props = withDefaults(defineProps<ChatBoxProps>(), {});
-const { message, role } = toRefs(props);
+const { message, role, temperature } = toRefs(props);
 
 // 历史消息
 const messagesStore = useMessagesStore();
@@ -65,6 +66,7 @@ const getGptOutput = async (flag: Ref<Boolean>, messageParams: any, loadingInter
         content: message.value
       }],
       role: role.value,
+      temperature: temperature.value
     }),
   });
 
