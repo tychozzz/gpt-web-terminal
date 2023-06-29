@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://nonebot.dev/"><img src="https://lty-image-bed.oss-cn-shenzhen.aliyuncs.com/blog/GPT.png" width="200" height="200" alt="nonebot"></a>
+  <img src="https://lty-image-bed.oss-cn-shenzhen.aliyuncs.com/blog/GPT.png" width="200" height="200">
 </p>
 <div align="center">
 
