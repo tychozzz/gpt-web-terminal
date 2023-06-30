@@ -3,7 +3,6 @@ const { openaiAuth } = require("../thirdpart/gptApi/gptApi");
 async function handleStream(res, req, handlerFunction) {
   try {
     let authResp = await openaiAuth();
-    console.log(authResp);
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Connection", "keep-alive");
@@ -27,14 +26,19 @@ async function handleStream(res, req, handlerFunction) {
       }
     });
     resp.data.on("error", (error) => {
-      console.log("error:", error.message);
-      res.writeHead(500, { "Content-Type": "application/json" });
+      console.log("resp error:", error.message);
+      // res.writeHead(500, { "Content-Type": "application/json" });
       res.end(
         JSON.stringify({ code: 500, data: null, message: error.message })
       );
     });
   } catch (e) {
-    console.log("error:", e.message);
+    console.log("out error:", e.message);
+    if (e.message === 'Request failed with status code 429') {
+      res.write("使用频繁，请稍后重试～")
+      res.end()
+      return
+    }
     res.writeHead(401, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ code: 401, data: null, message: null }));
   }

@@ -49,6 +49,7 @@ async function createChatCompletion(messages, temperature) {
       responseType: "stream",
     }
   );
+  console.log("createChatCompletion", res.status)
   return res;
 
   // 如下为 非流式数据传输 写法
