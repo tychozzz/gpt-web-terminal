@@ -11,13 +11,13 @@ const RedisStore = require("connect-redis")(expressSession);
 const { handleStream } = require("./handler/gptHandler");
 
 // 创建Redis连接配置
-const redisClient = redis.createClient(redisConfig);
-redisClient.on("connect", function () {
-  console.log("Redis client connected");
-});
-redisClient.on("error", function (e) {
-  console.error(e);
-});
+// const redisClient = redis.createClient(redisConfig);
+// redisClient.on("connect", function () {
+//   console.log("Redis client connected");
+// });
+// redisClient.on("error", function (e) {
+//   console.error(e);
+// });
 
 // 请求大小限制
 const requestLimit = "5120kb";
@@ -57,7 +57,7 @@ class ExpressServer {
     // 设置Express的Session存储中间件(跟之前session设置方法一样，只加了store项为redis存储)
     const sessionOptions = {
       // store session存储实例，默认为一个新的 MemoryStore 实例。
-      store: new RedisStore({ client: redisClient }), // 只需设置这个就可存储到redis
+      // store: new RedisStore({ client: redisClient }), // 只需设置这个就可存储到redis
       name: "session_id", // 默认connect.sid
       secret: "yupi", // 设置签名秘钥  内容可以任意填写
       resave: false, // 强制保存，如果session没有被修改也要重新保存,默认true(推荐false)
