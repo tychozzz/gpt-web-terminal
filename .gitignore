@@ -30,3 +30,4 @@ dist-ssr
 .history
 
 .env.production
+.vercel

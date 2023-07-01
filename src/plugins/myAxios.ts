@@ -10,7 +10,6 @@ myAxios.defaults.withCredentials = true;
 
 myAxios.interceptors.request.use(
   function (config) {
-    console.log("serverAddress:", serverAddress)
     return config;
   },
   function (error) {
