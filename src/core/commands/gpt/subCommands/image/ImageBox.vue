@@ -28,7 +28,7 @@ const flag = ref(true)
 const emit = defineEmits(['start', 'finish']);
 const loading = ref("图片内容较大，正在加载中...")
 
-const imageUrlList = ref<string[]>([])
+const imageUrlList = ref<any>([])
 
 onMounted(async () => {
   // 定时器 loading 效果

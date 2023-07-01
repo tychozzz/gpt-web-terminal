@@ -211,7 +211,7 @@ watchEffect(() => {
  * 输入提示符
  */
 const prompt = computed(() => {
-  return `[${user.value.username}]$`;
+  return `[${user?.value?.username}]$`;
 });
 
 /**
@@ -456,6 +456,7 @@ const terminal: TerminalType = {
   setCommandCollapsible,
   listGptHistory,
   terminateCurrentCommand,
+  // @ts-ignore
   getLoginUser,
 };
 

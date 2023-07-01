@@ -121,6 +121,6 @@ declare namespace GptTerminal {
     // 终止当前命令运行
     terminateCurrentCommand: () => void;
     // 获取登录用户
-    getLoginUser: () => UserType;
+    getLoginUser: () => any;
   }
 }
