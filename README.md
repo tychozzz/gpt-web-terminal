@@ -32,6 +32,12 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 ## 预览
 
+演示地址：https://gpt-web-terminal.vercel.app/#/ （后端内置 GPT 服务，欢迎免费白嫖，额度用完我再更新！）
+
+- ⚠️ 注意：由于后端未从 http 升级为 https，控制台会报错 Mixed Content，请麻烦手动取消一下安全限制！
+
+  <img width="310" alt="image" src="https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/0c02724c-9a17-4433-8813-f8950c4b5856">
+
 ![gpt-terminal-demo](https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/dee28750-b86b-45a1-a8b2-8357b3e27a25)
 
 ## 专栏讲解（持续更新中）
