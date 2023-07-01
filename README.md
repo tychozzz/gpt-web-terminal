@@ -74,7 +74,7 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 ## 快速开始
 
-你只需简单地了解如何使用 npm / MySQL / Redis，即可解锁全部功能！
+你只需简单地了解如何使用 npm / MySQL，即可解锁全部功能！
 
 1.   将项目克隆到本地
 
@@ -91,7 +91,7 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 3.   修改后端配置。配置文件位于 `server/config/config.js` 中
 
-     -   你需要将 Redis、MySQL 与 GPT 更改为你自己的配置
+     -   你需要将 MySQL 与 GPT 更改为你自己的配置
 
 4.   将 `server/db/gpt_terminal.sql` 导入 MySQL 数据库中
 
