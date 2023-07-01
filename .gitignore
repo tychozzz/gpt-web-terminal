@@ -28,3 +28,5 @@ dist-ssr
 *.crx
 
 .history
+
+.env.production

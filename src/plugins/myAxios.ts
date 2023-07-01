@@ -1,13 +1,16 @@
 import axios from "axios";
 
+let serverAddress = import.meta.env.VITE_SERVER_ADDRESS
+
 const myAxios = axios.create({
-  baseURL: "http://localhost:7345/api",
+  baseURL: `http://${serverAddress}/api`,
 });
 
 myAxios.defaults.withCredentials = true;
 
 myAxios.interceptors.request.use(
   function (config) {
+    console.log("serverAddress:", serverAddress)
     return config;
   },
   function (error) {

@@ -50,8 +50,10 @@ const emit = defineEmits(['start', 'finish']);
 
 const flag = ref(false)
 
+let serverAddress = import.meta.env.VITE_SERVER_ADDRESS
+
 const getGptOutput = async (flag: Ref<Boolean>, messageParams: any, loadingInterval: any, roleKeyword: string) => {
-  const response = await fetch('http://127.0.0.1:7345/api/gpt/get', {
+  const response = await fetch(`http://${serverAddress}/api/gpt/get`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
