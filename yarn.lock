@@ -152,6 +152,11 @@
   resolved "https://registry.npmmirror.com/@types/lodash/-/lodash-4.14.195.tgz"
   integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
 
+"@types/marked@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/@types/marked/-/marked-5.0.0.tgz"
+  integrity sha512-YcZe50jhltsCq7rc9MNZC/4QB/OnA2Pd6hrOSTOFajtabN+38slqgDDCeE/0F83SjkKBQcsZUj7VLWR0H5cKRA==
+
 "@types/node@^18.6.4":
   version "18.16.17"
   resolved "https://registry.npmmirror.com/@types/node/-/node-18.16.17.tgz"
