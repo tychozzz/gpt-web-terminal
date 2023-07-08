@@ -116,7 +116,9 @@ export const shortcutList: ShortcutType[] = [
     keyDesc: "↑",
     action(e, terminal) {
       e.preventDefault();
-      terminal.showPrevCommand();
+      if (!terminal.isRunning) {
+        terminal.showPrevCommand();
+      }
     },
   },
   {
@@ -125,7 +127,9 @@ export const shortcutList: ShortcutType[] = [
     keyDesc: "↓",
     action(e, terminal) {
       e.preventDefault();
-      terminal.showNextCommand();
+      if (!terminal.isRunning) {
+        terminal.showNextCommand();
+      }
     },
   },
 ];

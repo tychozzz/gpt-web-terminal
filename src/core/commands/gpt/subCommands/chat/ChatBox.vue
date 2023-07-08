@@ -8,6 +8,7 @@ import { marked } from 'marked'
 import hljs from "highlight.js";
 import { useMessagesStore } from "../../messagesStore"
 import { useUserStore } from "../../../user/userStore";
+import { useConfigStore } from "../../configStore"
 import { storeToRefs } from "pinia";
 import { getRoleElementsByKeyword } from './chatApi'
 import { roleMap } from "../role/roles";
@@ -33,6 +34,10 @@ const { message, role, temperature } = toRefs(props);
 // 历史消息
 const messagesStore = useMessagesStore();
 const { messages } = storeToRefs(messagesStore);
+
+// GPT 配置
+const configStore = useConfigStore();
+const { config } = storeToRefs(configStore);
 
 // 当前用户
 const userStore = useUserStore();
@@ -68,7 +73,8 @@ const getGptOutput = async (flag: Ref<Boolean>, messageParams: any, loadingInter
         content: message.value
       }],
       role: role.value,
-      temperature: temperature.value
+      temperature: temperature.value,
+      model: config.value.model ? config.value.model : "gpt-3.5-turbo",
     }),
   });
 

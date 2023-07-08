@@ -80,6 +80,8 @@ declare namespace GptTerminal {
    * 终端类型（定义一组访问及操作终端的方法）
    */
   interface TerminalType {
+    // 是否运行
+    isRunning: boolean;
     // 清屏
     clear: () => void;
     // 立即输出

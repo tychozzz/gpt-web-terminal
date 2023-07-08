@@ -39,6 +39,11 @@ async function handleStream(res, req, handlerFunction) {
       res.end()
       return
     }
+    if (e.message === 'Request failed with status code 404') {
+      res.write("OpenAI 免费用户无法使用 GPT-4 模型，请自行前往 OpenAI 官网订阅~")
+      res.end()
+      return
+    }
     res.writeHead(401, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ code: 401, data: null, message: null }));
   }

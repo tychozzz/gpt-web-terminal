@@ -148,6 +148,7 @@ const { hint, setHint, debounceSetHint } = useHint();
  */
 const doSubmitCommand = async () => {
   isRunning.value = true;
+  terminal.isRunning = true;
   setHint("");
   let inputText = inputCommand.value.text;
   // 执行某条历史命令
@@ -184,18 +185,21 @@ const doSubmitCommand = async () => {
     terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
   }, 50);
   isRunning.value = false;
+  terminal.isRunning = false;
 };
 
 // 处理 GPT 请求开始时的操作
 const handleStart = () => {
   console.log("开始")
   isRunning.value = true
+  terminal.isRunning = true
 }
 
 // 处理 GPT 请求结束后的操作
 const handleFinish = () => {
   console.log("结束")
   isRunning.value = false
+  terminal.isRunning = false
 }
 
 const handleFailed = () => {
@@ -407,6 +411,7 @@ const terminateCurrentCommand = () => {
   }
   console.log("终止！!")
   isRunning.value = true;
+  terminal.isRunning = true;
   setHint("");
   let inputText = inputCommand.value.text;
   const newCommand: CommandOutputType = {
@@ -423,6 +428,7 @@ const terminateCurrentCommand = () => {
     terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
   }, 50);
   isRunning.value = false;
+  terminal.isRunning = false;
 }
 
 /**
@@ -436,6 +442,7 @@ const getLoginUser = () => {
  * 操作终端的对象
  */
 const terminal: TerminalType = {
+  isRunning: false,
   writeTextResult,
   writeTextErrorResult,
   writeTextLoadingResult,
@@ -486,8 +493,11 @@ onMounted(() => {
       `Thanks so much to the YuIndex author - <a href="//docs.qq.com/doc/DUFFRVWladXVjeUxW" target="_blank">coder_yupi</a>`
     );
     terminal.writeTextOutput("<br/>")
-    terminal.writeTextOutput("<span style='color: red'>Notice: You can only request Open AI 3 times per minute if you are a non-paying user.</span>")
-    terminal.writeTextOutput(`&nbsp;&nbsp;- Link: <a href="//platform.openai.com/docs/guides/rate-limits/overview" target="_blank">Open AI</a>`)
+    terminal.writeTextOutput("<span style='color: red'>Notice: </span>")
+    terminal.writeTextOutput("<span style='color: red'>&nbsp;&nbsp; - You can only use GPT-3.5 Model if you are not a OpenAI-paying user.</span>")
+    terminal.writeTextOutput("<span style='color: red'>&nbsp;&nbsp; - You can only request Open AI 3 times per minute if you are not a OpenAI-paying user.</span>")
+    terminal.writeTextOutput("<br/>")
+    terminal.writeTextOutput(`Link: <a href="//platform.openai.com/docs/guides/rate-limits/overview" target="_blank">Open AI</a>`)
     terminal.writeTextOutput("<br/>");
   }
 });
