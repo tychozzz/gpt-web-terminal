@@ -29,7 +29,8 @@ async function getGptOutput(event, req, res) {
     let inputMessages = await generatePromptMessages(event.role);
     return await createChatCompletion(
       [...inputMessages, ...event.message],
-      event.temperature
+      event.temperature,
+      event.model
     );
   } else {
     // 用户自定义角色 - 读取数据库
