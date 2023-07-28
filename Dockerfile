@@ -1,19 +1,17 @@
 # build front-end
 FROM node:lts-alpine AS frontend
 
-RUN npm install pnpm -g
+RUN npm install npm -g
 
 WORKDIR /app
 
 COPY ./package.json /app
 
-COPY ./pnpm-lock.yaml /app
-
-RUN pnpm install
+RUN npm install
 
 COPY . /app
 
-RUN pnpm run build
+RUN npm run build
 
 # build backend
 FROM node:lts-alpine as backend
