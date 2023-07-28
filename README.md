@@ -38,62 +38,62 @@ Demo Link：https://gpt-web-terminal.vercel.app/#/
 
 ![gpt-terminal-demo](https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/dee28750-b86b-45a1-a8b2-8357b3e27a25)
 
-## Function Overview
+## Features
 
-- Support dialogue between command-line terminal and GPT. As programmers, we communicate with GPT in a geeky way!
+- ✨ Support dialogue between command-line terminal and GPT. As programmers, we communicate with GPT in a geeky way!
 
-- Support logged-in users to customize their GPT roles and persist them. Have conversations with your exclusive role!
+- 🌟 Support configuration of API Key (OpenAI API method) and Access Token (Web API method) - either one can be chosen.
 
-- Support GPT to remember the conversation history and provide commands to query the history. Give your GPT a good memory~
+- 🌈 Support DIY of GPT roles and persist them. Have conversations with your exclusive role!
 
-- Support the widely-used Event Stream technology for GPT responses, achieving a typewriter effect~
+- ☁️ Support GPT to remember the conversation history and provide commands to query the history. Give your GPT a good memory~
 
-- Support rendering GPT responses in Markdown format.
+- 🍀 Support the widely-used Event Stream technology for GPT responses, achieving a typewriter effect~
 
-- GPT-based Chinese-English translation assistant, the best choice for authentic translations!
+- 🌴 Support rendering GPT responses in Markdown format.
 
-- GPT-based command-line translation assistant, use it when you forget Linux commands!
-
-- GPT-based SQL-BOY, use it when you don't know how to write SQL statements!
-
-- Basic terminal commands such as viewing command history, accessing help manuals, clearing the screen, etc.
+- 🍃 Basic terminal commands such as viewing command history, accessing help manuals, clearing the screen, etc.
 
 ## Quick Start
 
-You only need to have a basic understanding of using npm/MySQL to unlock all the features!
+You only need to have a basic understanding of using `npm` to unlock all the features!
 
-1.   Clone the project to your local machine
+1.   Clone the project to your local machine.
 
      ```bash
      git clone https://github.com/ltyzzzxxx/gpt-web-terminal.git
      ```
 
-2.   Navigate to the project directory and install dependencies for the frontend and backend separately
+2.   Navigate to the project directory and install dependencies for the frontend and backend separately.
 
      ```bash
      cd gpt-web-terminal && npm install
-     cd server && npm install
+     cd service && npm install
      ```
 
-3.   Modify the backend configuration. The configuration file is located at server/config/config.js.
+3.   Configure your API Key or Access Token in `service/.env`. API key takes priority.
 
-     -   You need to change the configuration for MySQL and GPT with your own settings.
+      ```
+      # Choose either API Key (OpenAI API method) or Access Token (Web API method)
+      OPENAI_API_KEY=
+      OPENAI_ACCESS_TOKEN=
+      # Configure reverse proxy address when using Access Token
+      API_REVERSE_PROXY=
+      ```
 
-4.   Import server/db/gpt_terminal.sql into your MySQL database.
-
-5.   Run the frontend.
+4.   Run the frontend.
 
      ```bash
      npm run dev
      ```
 
-6.   Run the backend.
+5.   Run the backend.
 
      ```bash
-     npm run start:dev
+     npm run start
      ```
 
-7.  Quickly unlock command usage - use the help command in the command-line to query the usage.
+6.  Quickly unlock command usage - use the help command in the command-line to query the usage.
 
     ```bash
     # Query all command help
@@ -106,27 +106,20 @@ You only need to have a basic understanding of using npm/MySQL to unlock all the
     gpt history -h
     ```
 
+## Quick Deploy
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/2S2-Da)
+
 ## How to Design Your Own GPT Role?
-
-Before proceeding with the following steps, make sure you have completed the local deployment of the project as described in `Quick Start`.
-
-1. Use the following command to login or register. If not logged in, you need to login first.
-    
-   ```bash
-   # User login
-   user login <-u username> <-p password>
-   # User registration
-   user register <-u username> <-p password> <-e email>
-   ```
    
-2. Use the following command to start the role `DIY` process
-  
-    ```bash
-    # k - Role unique identifier, e.g., default / cli / sql / ikun
-    # n - Role name, e.g., Command-line Translation Assistant, SQL-BOY
-    # d - Role description, e.g., Translate your natural language instructions into Windows/Unix terminal commands
-    gpt diy <-k GPT role unique identifier> <-n GPT role name> <-d GPT role description>
-    ```
+Use the following command to start the role `DIY` process
+
+```bash
+# k - Role unique identifier, e.g., default / cli / sql / ikun
+# n - Role name, e.g., Command-line Translation Assistant, SQL-BOY
+# d - Role description, e.g., Translate your natural language instructions into Windows/Unix terminal commands
+gpt diy <-k GPT role unique identifier> <-n GPT role name> <-d GPT role description>
+```
 
 ## Special Thanks
 

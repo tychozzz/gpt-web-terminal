@@ -34,13 +34,9 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 ## 预览
 
-演示地址：https://gpt-web-terminal.vercel.app/#/ （后端内置 GPT 服务，欢迎免费白嫖，额度用完我再更新！）
+演示地址：https://gpt-terminal.up.railway.app/（使用前配置 🪜）
 
 B站功能细节展示：https://www.bilibili.com/video/BV1Ux4y1o7nu/?spm_id_from=333.999.0.0&vd_source=4e7654633e4719c03a8fb6c6b524ddc2
-
-- ⚠️ 注意：由于后端未从 http 升级为 https，控制台会报错 Mixed Content，请麻烦手动取消一下安全限制！
-
-  <img width="310" alt="image" src="https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/0c02724c-9a17-4433-8813-f8950c4b5856">
 
 ![gpt-terminal-demo](https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/dee28750-b86b-45a1-a8b2-8357b3e27a25)
 
@@ -66,29 +62,23 @@ B站功能细节展示：https://www.bilibili.com/video/BV1Ux4y1o7nu/?spm_id_fro
 
 ## 功能概览
 
-- 支持命令行终端与 GPT 进行对话，我们程序员就是要用极客范儿的方式与 GPT 交流！
+- ✨ 支持命令行终端与 GPT 进行对话，我们程序员就是要用极客范儿的方式与 GPT 交流！
 
-- 支持已登陆用户 DIY GPT 角色，并持久化。与你的专属角色进行对话！
+- 🌟 支持 API Key（OpenAI API 方式）与 Access Token（Web API 方式）配置 - 二选一
 
-- 支持 GPT 记忆历史对话并提供命令查询历史对话，给你的 GPT 长长记性～
+- 🌈 支持 DIY GPT 角色，并持久化。与你的专属角色进行对话！
 
-- 支持 GPT 市面使用最广泛的 Event Stream 技术，实现打字机效果～
+- ☁️ 支持 GPT 记忆历史对话并提供命令查询历史对话，给你的 GPT 长长记性～
 
-- 支持 GPT 回复内容以 Markdown 形式展现
+- 🍀 支持 GPT 市面使用最广泛的 Event Stream 技术，实现打字机效果～
 
-- 基于 GPT 的中英文翻译助手，地道翻译的最佳选择！
+- 🌴 支持 GPT 回复内容以 Markdown 形式展现
 
-- 基于 GPT 的命令行翻译助手，当你忘记 linux 命令时，就用它！
-
-- 基于 GPT 的 SQL-BOY，当你不知道如何写 SQL语句时，就用它！
-
-- 基本的终端命令，如查看历史命令、帮助手册、清屏等
-
-- 终端用户登录与注册
+- 🍃 基本的终端命令，如查看历史命令、帮助手册、清屏等
 
 ## 快速开始
 
-你只需简单地了解如何使用 npm / MySQL，即可解锁全部功能！
+你只需简单地了解如何使用 `npm` ，即可解锁全部功能！
 
 1.   将项目克隆到本地
 
@@ -100,28 +90,32 @@ B站功能细节展示：https://www.bilibili.com/video/BV1Ux4y1o7nu/?spm_id_fro
 
      ```bash
      cd gpt-web-terminal && npm install
-     cd server && npm install
+     cd service && npm install
      ```
 
-3.   修改后端配置。配置文件位于 `server/config/config.js` 中
+3.   在 `service/.env` 中，配置 API Key 或 Access Token
 
-     -   你需要将 MySQL 与 GPT 更改为你自己的配置
+      ```
+      # API Key（OpenAI API 方式） 与 Access Token（Web API 方式） 二选一
+      OPENAI_API_KEY=
+      OPENAI_ACCESS_TOKEN=
+      # 使用 Access Token 时可配置反向代理地址
+      API_REVERSE_PROXY=
+      ```
 
-4.   将 `server/db/gpt_terminal.sql` 导入 MySQL 数据库中
-
-5.   运行前端
+4.   运行前端
 
      ```bash
      npm run dev
      ```
 
-6.   运行后端
+5.   运行后端
 
      ```bash
-     npm run start:dev
+     npm run start
      ```
 
-7.  快速解锁命令用法 - 命令行中使用help命令查询使用方法
+6.  快速解锁命令用法 - 命令行中使用help命令查询使用方法
 
     ```bash
     # 查询全部命令帮助
@@ -165,44 +159,14 @@ B站功能细节展示：https://www.bilibili.com/video/BV1Ux4y1o7nu/?spm_id_fro
 
 ## 如何"调教"属于你的 GPT 角色？
 
-在执行如下步骤之前，请确保已经按照 `快速开始` 完成项目本地部署。
-
-### v1.3.x 版本指南
-
-> 你仍然可以采用 v1.0.x 版本指南进行角色定制，但是旧指南是定义系统默认角色，而非用户专属角色
-
-1. 输入如下命令进行登录或注册。若未登录，需要先登录。
-    
-   ```bash
-   # 用户登录
-   user login <-u 用户名> <-p 密码>
-   # 用户注册
-   user register <-u 用户名> <-p 密码> <-e 邮箱>
-   ```
-   
-2. 输入如下命令进入角色 `DIY` 流程
+输入如下命令进入角色 `DIY` 流程
   
-    ```bash
-    # k - 角色唯一标识，例如: default / cli / sql / ikun
-    # n - 角色名，例如：命令行翻译助手、SQL-BOY
-    # d - 角色描述，例如：将你的自然语言指令翻译为 Window/Unix 终端命令
-    gpt diy <-k GPT 角色唯一标识> <-n GPT 角色名> <-d GPT 角色描述>
-    ```
-
-示例：定义一个可以帮人看病的医生
-
-<img width="956" alt="image" src="https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/d46be281-04cb-4453-b43e-c34c71e358e3">
-
-
-### ~~v1.0.x 版本指南~~
-
-后续会逐步加入前端界面中自定义角色的功能
-
-1.   进入 `server/src/thirdpart/gptApi/template` 目录下，新建 `markdown` 文件。文件名为角色名。
-     -   参照该目录下的其它模板文件
-         -   SYSTEM：对 GPT 角色的定义
-         -   USER - ASSISTANT：示范提示 GPT 在特定情况下该如何回答 - Prompt
-2.   进入 `src/core/commands/gpt/subCommands/roles.ts` 文件中，在数组中添加你之前定义的的角色名（与 `markdown` 模板文件保持一致）。
+```bash
+# k - 角色唯一标识，例如: default / cli / sql / ikun
+# n - 角色名，例如：命令行翻译助手、SQL-BOY
+# d - 角色描述，例如：将你的自然语言指令翻译为 Window/Unix 终端命令
+gpt diy <-k GPT 角色唯一标识> <-n GPT 角色名> <-d GPT 角色描述>
+```
 
 ## 版本规划
 
