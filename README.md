@@ -34,7 +34,7 @@ The project is implemented based on Vue3 and Express.
 
 ## Preview
 
-Demo Link：https://gpt-web-terminal.vercel.app/#/ 
+Demo Link：https://gpt-terminal.up.railway.app/
 
 ![gpt-terminal-demo](https://github.com/ltyzzzxxx/gpt-web-terminal/assets/73587471/dee28750-b86b-45a1-a8b2-8357b3e27a25)
 
