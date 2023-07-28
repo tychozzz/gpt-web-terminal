@@ -1,8 +1,6 @@
 import { CommandType } from "../../../../command";
 import { defineAsyncComponent } from "vue";
 import ComponentOutputType = GptTerminal.ComponentOutputType;
-import { hasRole } from "./diyApi";
-import { roleMap } from "../role/roles";
 
 const diyCommand: CommandType = {
   func: "diy",
@@ -47,13 +45,6 @@ const diyCommand: CommandType = {
       terminal.writeTextErrorResult("角色描述必填");
       return;
     }
-    if (roleMap.has(keyword)) {
-      terminal.writeTextErrorResult("当前角色已存在，且为系统默认角色");
-      return;
-    }
-    terminal.writeTextResult(
-      "💌 请开始定制您的专属角色吧～"
-    );
     const diyBox: ComponentOutputType = {
       type: "component",
       component: defineAsyncComponent(() => import("./DiyBox.vue")),

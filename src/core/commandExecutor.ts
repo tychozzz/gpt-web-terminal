@@ -53,11 +53,6 @@ const getCommand = (
     commands = parentCommand.subCommands;
   }
   const command = commands[func];
-  // 如果命令需要用户登录，则需要判断用户是否处于登陆态
-  if (command?.requireAuth && terminal.getLoginUser().username == "local") {
-    console.log("鉴权失败");
-    return "403";
-  }
   console.log("getCommand = ", command);
   return command;
 };

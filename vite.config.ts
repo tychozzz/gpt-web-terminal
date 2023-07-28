@@ -18,7 +18,7 @@ export default defineConfig((env) => {
     ].filter(Boolean),
     server: {
       host: '0.0.0.0',
-      port: 1002,
+      port: 3001,
       open: false,
       proxy: {
         '/api': {

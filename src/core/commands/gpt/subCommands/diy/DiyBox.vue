@@ -12,12 +12,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineEmits, toRefs } from "vue";
-import { createRole } from './diyApi'
-import { useMessagesStore } from "../../messagesStore"
 import { storeToRefs } from "pinia";
+import { onMounted, ref, defineEmits, toRefs } from "vue";
+import { useMessagesStore } from "../../messagesStore"
 
 const messagesStore = useMessagesStore();
+const { messages } = storeToRefs(messagesStore);
 
 // 展示列表
 const displayList = ref<any[]>([])
@@ -77,10 +77,21 @@ const doSubmit = async () => {
 }
 
 onMounted(async () => {
-  window.addEventListener('keydown', handleKeyDown)
-  emit('start')
-  displayList.value.push("✍️ 请定义当前角色，建议以 ‘从现在开始，你是 xxx‘ 的格式开头")
-  // 
+  let flag = false
+  messages.value.forEach((m) => {
+    if (m.roleKeyword == keyword.value) {
+      flag = true
+    }
+  })
+  if (flag) {
+    displayList.value.push("❗️当前角色已存在")
+    finished.value = true
+  } else {
+    window.addEventListener('keydown', handleKeyDown)
+    emit('start')
+    displayList.value.push("💌 请开始定制您的专属角色吧～")
+    displayList.value.push("✍️ 请定义当前角色，建议以 ‘从现在开始，你是 xxx‘ 的格式开头")
+  }
 });
 </script>
 

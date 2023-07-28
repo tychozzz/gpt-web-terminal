@@ -7,11 +7,9 @@ import { computed, onMounted, toRefs, ref, defineEmits, Ref } from "vue";
 import { marked } from 'marked'
 import hljs from "highlight.js";
 import { useMessagesStore } from "../../messagesStore"
-import { useUserStore } from "../../../user/userStore";
 import { useConfigStore } from "../../configStore"
 import { storeToRefs } from "pinia";
-import { fetchChatAPIProcess, getRoleElementsByKeyword } from './chatApi'
-import { roleMap } from "../role/roles";
+import { fetchChatAPIProcess } from './chatApi'
 
 marked.setOptions({
   renderer: new marked.Renderer,
@@ -84,7 +82,7 @@ interface ConversationResponse {
 let controller = new AbortController()
 
 const getGptOutput = async (flag: Ref<Boolean>, messageParams: MessageType, loadingInterval: any) => {
-  let options = { conversationId: messageParams.conversationId, parentMessageId: messageParams.parentMessageId }
+  let options = { parentMessageId: messageParams.parentMessageId }
   let parentMessageId = ''
   await fetchChatAPIProcess<ConversationResponse>({
     prompt: message.value,
@@ -170,7 +168,14 @@ onMounted(async () => {
     }
   }, 35000)
 
-  let messageType: MessageType = {}
+  let messageType: MessageType = {
+    roleKeyword: '',
+    roleName: '',
+    roleDesc: '',
+    systemMessage: '',
+    parentMessageId: '',
+    messageElements: [],
+  }
   let hasRole = false
   messages.value.forEach(m => {
     if (m.roleKeyword == role.value) {
