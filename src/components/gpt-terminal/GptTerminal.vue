@@ -74,10 +74,7 @@ import TextOutputType = GptTerminal.TextOutputType;
 import useHistory from "./history";
 import ContentOutput from "./ContentOutput.vue";
 import OutputStatusType = GptTerminal.OutputStatusType;
-import { useTerminalConfigStore } from "../../core/commands/terminal/config/terminalConfigStore";
 import useHint from "./hint";
-import UserType = User.UserType;
-import { LOCAL_USER } from "../../core/commands/user/userConstant";
 import { defineStore } from "pinia";
 import { useMessagesStore } from "../../core/commands/gpt/messagesStore";
 
@@ -87,7 +84,6 @@ const messages = messagesStore.$state.messages;
 interface GptTerminalProps {
   height?: string | number;
   fullScreen?: boolean;
-  user?: UserType;
   // eslint-disable-next-line vue/require-default-prop
   onSubmitCommand?: (inputText: string) => void;
 }
@@ -95,10 +91,7 @@ interface GptTerminalProps {
 const props = withDefaults(defineProps<GptTerminalProps>(), {
   height: "400px",
   fullScreen: false,
-  user: LOCAL_USER as any,
 });
-
-const { user } = toRefs(props);
 
 const terminalRef = ref();
 const activeKeys = ref<number[]>([]);
@@ -110,9 +103,6 @@ const commandInputRef = ref();
 
 // 命令是否运行
 const isRunning = ref(false);
-
-// 引入终端配置状态
-const configStore = useTerminalConfigStore();
 
 /**
  * 初始命令
@@ -215,7 +205,7 @@ watchEffect(() => {
  * 输入提示符
  */
 const prompt = computed(() => {
-  return `[${user?.value?.username}]$`;
+  return '[local]$';
 });
 
 /**
@@ -251,15 +241,9 @@ const mainStyle = computed(() => {
  * 终端包装类主样式
  */
 const wrapperStyle = computed(() => {
-  const { background } = configStore;
   const style = {
     ...mainStyle.value,
   };
-  if (background.startsWith("http")) {
-    style.background = `url(${background})`;
-  } else {
-    style.background = background;
-  }
   return style;
 });
 
@@ -432,13 +416,6 @@ const terminateCurrentCommand = () => {
 }
 
 /**
- * 判断当前用户是否已登陆
- */
-const getLoginUser = () => {
-  return user.value
-}
-
-/**
  * 操作终端的对象
  */
 const terminal: TerminalType = {
@@ -464,7 +441,6 @@ const terminal: TerminalType = {
   listGptHistory,
   terminateCurrentCommand,
   // @ts-ignore
-  getLoginUser,
 };
 
 /**
@@ -472,34 +448,27 @@ const terminal: TerminalType = {
  */
 onMounted(() => {
   registerShortcuts(terminal);
-  const { welcomeTexts } = configStore;
-  if (welcomeTexts?.length > 0) {
-    welcomeTexts.forEach((welcomeText) => {
-      terminal.writeTextOutput(welcomeText);
-    });
-  } else {
-    terminal.writeTextOutput("   _____ _____ _______   _______                  _             _ ".replace(/ /g, "&nbsp;"))
-    terminal.writeTextOutput("  / ____|  __ \\__   __| |__   __|                (_)           | |".replace(/ /g, "&nbsp;"))
-    terminal.writeTextOutput(" | |  __| |__) | | |       | | ___ _ __ _ __ ___  _ _ __   __ _| |".replace(/ /g, "&nbsp;"))
-    terminal.writeTextOutput(" | | |_ |  ___/  | |       | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | |".replace(/ /g, "&nbsp;"))
-    terminal.writeTextOutput(" | |__| | |      | |       | |  __/ |  | | | | | | | | | | (_| | |".replace(/ /g, "&nbsp;"))
-    terminal.writeTextOutput("  \\_____|_|      |_|       |_|\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|".replace(/ /g, "&nbsp;"))
-    terminal.writeTextOutput("<br/>");
-    terminal.writeTextOutput("Welcome to GPT Terminal!");
-    terminal.writeTextOutput("You can enjoy your exclusive GPT service!");
-    terminal.writeTextOutput("Enter the <span style='color: #ec61ad;'>help</span> command to unlock all GPT services!");
-    terminal.writeTextOutput(`GPT Terminal Reformer - <a href="//github.com/ltyzzzxxx/gpt-web-terminal" target="_blank">ltyzzz</a>`)
-    terminal.writeTextOutput(
-      `Thanks so much to the YuIndex author - <a href="//docs.qq.com/doc/DUFFRVWladXVjeUxW" target="_blank">coder_yupi</a>`
-    );
-    terminal.writeTextOutput("<br/>")
-    terminal.writeTextOutput("<span style='color: red'>Notice: </span>")
-    terminal.writeTextOutput("<span style='color: red'>&nbsp;&nbsp; - You can only use GPT-3.5 Model if you are not a OpenAI-paying user.</span>")
-    terminal.writeTextOutput("<span style='color: red'>&nbsp;&nbsp; - You can only request Open AI 3 times per minute if you are not a OpenAI-paying user.</span>")
-    terminal.writeTextOutput("<br/>")
-    terminal.writeTextOutput(`Link: <a href="//platform.openai.com/docs/guides/rate-limits/overview" target="_blank">Open AI</a>`)
-    terminal.writeTextOutput("<br/>");
-  }
+  terminal.writeTextOutput("   _____ _____ _______   _______                  _             _ ".replace(/ /g, "&nbsp;"))
+  terminal.writeTextOutput("  / ____|  __ \\__   __| |__   __|                (_)           | |".replace(/ /g, "&nbsp;"))
+  terminal.writeTextOutput(" | |  __| |__) | | |       | | ___ _ __ _ __ ___  _ _ __   __ _| |".replace(/ /g, "&nbsp;"))
+  terminal.writeTextOutput(" | | |_ |  ___/  | |       | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | |".replace(/ /g, "&nbsp;"))
+  terminal.writeTextOutput(" | |__| | |      | |       | |  __/ |  | | | | | | | | | | (_| | |".replace(/ /g, "&nbsp;"))
+  terminal.writeTextOutput("  \\_____|_|      |_|       |_|\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|".replace(/ /g, "&nbsp;"))
+  terminal.writeTextOutput("<br/>");
+  terminal.writeTextOutput("Welcome to GPT Terminal!");
+  terminal.writeTextOutput("You can enjoy your exclusive GPT service!");
+  terminal.writeTextOutput("Enter the <span style='color: #ec61ad;'>help</span> command to unlock all GPT services!");
+  terminal.writeTextOutput(`GPT Terminal Reformer - <a href="//github.com/ltyzzzxxx/gpt-web-terminal" target="_blank">ltyzzz</a>`)
+  terminal.writeTextOutput(
+    `Thanks so much to the YuIndex author - <a href="//docs.qq.com/doc/DUFFRVWladXVjeUxW" target="_blank">coder_yupi</a>`
+  );
+  terminal.writeTextOutput("<br/>")
+  terminal.writeTextOutput("<span style='color: red'>Notice: </span>")
+  terminal.writeTextOutput("<span style='color: red'>&nbsp;&nbsp; - You can only use GPT-3.5 Model if you are not a OpenAI-paying user.</span>")
+  terminal.writeTextOutput("<span style='color: red'>&nbsp;&nbsp; - You can only request Open AI 3 times per minute if you are not a OpenAI-paying user.</span>")
+  terminal.writeTextOutput("<br/>")
+  terminal.writeTextOutput(`Link: <a href="//platform.openai.com/docs/guides/rate-limits/overview" target="_blank">Open AI</a>`)
+  terminal.writeTextOutput("<br/>");
 });
 
 /**

@@ -14,11 +14,13 @@
 <script setup lang="ts">
 import { onMounted, ref, defineEmits, toRefs } from "vue";
 import { createRole } from './diyApi'
+import { useMessagesStore } from "../../messagesStore"
+import { storeToRefs } from "pinia";
+
+const messagesStore = useMessagesStore();
 
 // 展示列表
 const displayList = ref<any[]>([])
-// 下标
-const index = ref(0)
 // 输入框 input
 const input = ref("")
 
@@ -60,88 +62,18 @@ const handleKeyDown = (e: any) => {
   }
 }
 
-// 判断用户是否已定义角色
-const flag = ref(false)
 
 const doSubmit = async () => {
-  let idx = index.value % 3
-  let term = Math.floor(index.value / 3)
-  if (idx == 0) {
-    if (flag.value) {
-      roleElementList.value.push({
-        name: "user",
-        content: input.value
-      })
-      displayList.value.push(input.value)
-      displayList.value.push(`💯 请输入示例 Answer ${term + 1}`)
-      input.value = ''
-      index.value += 1
-    } else {
-      roleElementList.value.push({
-        name: "system",
-        content: input.value
-      })
-      displayList.value.push(input.value)
-      displayList.value.push("🙋 请输入示例 Prompt 1")
-      input.value = ''
-      flag.value = true
-    }
-  } else if (idx == 1) {
-    roleElementList.value.push({
-      name: "assistant",
-      content: input.value
-    })
-    displayList.value.push(input.value)
-    displayList.value.push(`❓ 是否结束 - 输入 y/n`)
-    input.value = ''
-    index.value += 1
-  } else if (idx == 2) {
-    if (input.value != 'y' &&
-      input.value != 'yes' &&
-      input.value != 'Y' &&
-      input.value != 'n' &&
-      input.value != 'no' &&
-      input.value != 'N') {
-      displayList.value.push(input.value)
-      displayList.value.push(`❓ 是否结束 - 输入 y/n`)
-      input.value = ''
-      return
-    }
-    if (input.value == 'y' ||
-      input.value == 'yes' ||
-      input.value == 'Y' ||
-      term + 1 == 5) {
-      displayList.value.push(input.value)
-      const res: any = await createRole(keyword.value, name.value, description.value, roleElementList.value)
-      if (res?.code !== 0) {
-        emit('finish')
-        input.value = ''
-        index.value = 0
-        finished.value = true
-        displayList.value.push("❌ " + (res.message ? res.message : '请求失败，请稍后重试～'))
-        window.removeEventListener('keydown', handleKeyDown)
-        return
-      }
-      if (term + 1 == 5) {
-        displayList.value.push('⚠️ 已达到最大输入次数，已自动为您创建角色～')
-      } else {
-        displayList.value.push('🎉 角色已创建成功，请尽情享用吧～')
-      }
-      // TODO:发送结束事件
-      emit('finish')
-      input.value = ''
-      index.value = 0
-      finished.value = true
-      window.removeEventListener('keydown', handleKeyDown)
-      console.log("roleElmentList", roleElementList)
-    } else {
-      displayList.value.push(input.value)
-      displayList.value.push(`🙋 请输入示例 Prompt ${term + 2}`)
-      input.value = ''
-      index.value += 1
-    }
+  if (!input.value) {
+    displayList.value.push("❗️角色定义不可以为空！")
+    return
   }
-
+  messagesStore.addRole(keyword.value, name.value, description.value, input.value)
+  displayList.value.push(input.value)
+  displayList.value.push('🎉 角色已创建成功，请尽情享用吧～')
+  input.value = ''
+  finished.value = true
+  emit('finish')
 }
 
 onMounted(async () => {

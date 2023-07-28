@@ -51,13 +51,8 @@ const diyCommand: CommandType = {
       terminal.writeTextErrorResult("当前角色已存在，且为系统默认角色");
       return;
     }
-    const res: any = await hasRole(keyword);
-    if (res?.code === 0) {
-      terminal.writeTextErrorResult("当前角色已存在");
-      return;
-    }
     terminal.writeTextResult(
-      "💌 请开始定制您角色的专属 Case 吧，注意最多只接受 5 个 Case 哦～"
+      "💌 请开始定制您的专属角色吧～"
     );
     const diyBox: ComponentOutputType = {
       type: "component",

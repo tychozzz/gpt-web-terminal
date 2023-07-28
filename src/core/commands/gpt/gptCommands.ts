@@ -20,8 +20,8 @@ const gptCommand: CommandType = {
     role: roleCommand,
     history: historyCommand,
     diy: diyCommand,
-    image: imageCommand,
-    model: modelCommand
+    // image: imageCommand,
+    // model: modelCommand
   },
   options: [],
   async action(options, terminal) {

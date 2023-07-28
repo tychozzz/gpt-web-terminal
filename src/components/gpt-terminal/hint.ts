@@ -2,7 +2,6 @@ import { ref } from "vue";
 import { getUsageStr } from "../../core/commands/terminal/help/helpUtils";
 import { commandMap } from "../../core/commandRegister";
 import _, { trim } from "lodash";
-import { useTerminalConfigStore } from "../../core/commands/terminal/config/terminalConfigStore";
 
 /**
  * 命令提示功能
@@ -10,13 +9,7 @@ import { useTerminalConfigStore } from "../../core/commands/terminal/config/term
  */
 const useHint = () => {
   const hint = ref("");
-  const { showHint } = useTerminalConfigStore();
-
   const setHint = (inputText: string) => {
-    // 未开启提示
-    if (!showHint) {
-      return;
-    }
     if (!inputText) {
       hint.value = "";
       return;

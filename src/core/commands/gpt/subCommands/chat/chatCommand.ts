@@ -16,7 +16,7 @@ const chatCommand: CommandType = {
   options: [
     {
       key: "role",
-      desc: "GPT 角色名, 有 default / cli / translator / sql / ikun 五种默认角色可供选择",
+      desc: "GPT 角色唯一标识",
       alias: ["r"],
       type: "string",
       defaultValue: "default",

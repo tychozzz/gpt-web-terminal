@@ -1,12 +1,8 @@
 import { CommandType } from "./command";
 import clearCommand from "./commands/terminal/clearCommand";
 import historyCommand from "./commands/terminal/historyCommand";
-import userCommands from "./commands/user/userCommands";
-import resetCommand from "./commands/terminal/config/resetCommand";
 import helpCommand from "./commands/terminal/help/helpCommand";
-import hintCommand from "./commands/terminal/config/hintCommand";
 import shortcutCommand from "./commands/terminal/shortcut/shortcutCommand";
-import welcomeCommand from "./commands/terminal/config/welcomeCommand";
 import gptCommands from "./commands/gpt/gptCommands";
 
 /**
@@ -15,13 +11,9 @@ import gptCommands from "./commands/gpt/gptCommands";
 const commandList: CommandType[] = [
   ...gptCommands,
   shortcutCommand,
-  ...userCommands,
   clearCommand,
   historyCommand,
   helpCommand,
-  welcomeCommand,
-  resetCommand,
-  hintCommand,
 ];
 
 /**

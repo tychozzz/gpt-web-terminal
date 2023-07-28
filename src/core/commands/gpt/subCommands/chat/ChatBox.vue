@@ -10,7 +10,7 @@ import { useMessagesStore } from "../../messagesStore"
 import { useUserStore } from "../../../user/userStore";
 import { useConfigStore } from "../../configStore"
 import { storeToRefs } from "pinia";
-import { getRoleElementsByKeyword } from './chatApi'
+import { fetchChatAPIProcess, getRoleElementsByKeyword } from './chatApi'
 import { roleMap } from "../role/roles";
 
 marked.setOptions({
@@ -28,6 +28,20 @@ interface ChatBoxProps {
   temperature: number;
 }
 
+interface MessageElement {
+  role: string;
+  content: string;
+}
+
+interface MessageType {
+  roleKeyword: string | "default";
+  roleName: string;
+  roleDesc: string;
+  systemMessage: string;
+  parentMessageId: string;
+  messageElements: MessageElement[];
+}
+
 const props = withDefaults(defineProps<ChatBoxProps>(), {});
 const { message, role, temperature } = toRefs(props);
 
@@ -38,10 +52,6 @@ const { messages } = storeToRefs(messagesStore);
 // GPT 配置
 const configStore = useConfigStore();
 const { config } = storeToRefs(configStore);
-
-// 当前用户
-const userStore = useUserStore();
-const { loginUser } = storeToRefs(userStore);
 
 const output = ref("正在加载内容中...")
 
@@ -55,60 +65,65 @@ const emit = defineEmits(['start', 'finish']);
 
 const flag = ref(false)
 
-let serverAddress = import.meta.env.VITE_SERVER_ADDRESS
-
-const getGptOutput = async (flag: Ref<Boolean>, messageParams: any, loadingInterval: any, roleKeyword: string) => {
-  const response = await fetch(`http://${serverAddress}/api/gpt/get`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    // feed 历史消息
-    body: JSON.stringify({
-      message: messageParams ? [...messageParams, {
-        role: 'user',
-        content: message.value
-      }] : [{
-        role: 'user',
-        content: message.value
-      }],
-      role: role.value,
-      temperature: temperature.value,
-      model: config.value.model ? config.value.model : "gpt-3.5-turbo",
-    }),
-  });
-
-  console.log("gpt 响应 -", response)
-
-  if (response.status == 401) {
-    clearInterval(loadingInterval)
-    output.value = "API Key 设置有误，请重新设置后再访问～"
-  } else if (!response.body) {
-    clearInterval(loadingInterval)
-    output.value = "服务器异常，请稍后重试～"
-  } else {
-    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
-    clearInterval(loadingInterval)
-    output.value = ""
-    // 读取输出消息
-    while (true) {
-      var { value, done } = await reader.read();
-      if (done) break;
-      value = value?.replace('undefined', '')
-      console.log("received data -", value)
-      output.value += value?.replace('undefined', '')
-    }
+interface ConversationResponse {
+  conversationId: string
+  detail: {
+    choices: { finish_reason: string; index: number; logprobs: any; text: string }[]
+    created: number
+    id: string
+    model: string
+    object: string
+    usage: { completion_tokens: number; prompt_tokens: number; total_tokens: number }
   }
+  id: string
+  parentMessageId: string
+  role: string
+  text: string
+}
 
-  // 记录历史消息
-  messagesStore.addMessage({
-    role: "user",
-    content: message.value
-  }, roleKeyword)
-  messagesStore.addMessage({
-    role: "assistant",
-    content: output.value
-  }, roleKeyword)
+let controller = new AbortController()
+
+const getGptOutput = async (flag: Ref<Boolean>, messageParams: MessageType, loadingInterval: any) => {
+  let options = { conversationId: messageParams.conversationId, parentMessageId: messageParams.parentMessageId }
+  let parentMessageId = ''
+  await fetchChatAPIProcess<ConversationResponse>({
+    prompt: message.value,
+    signal: controller.signal,
+    options,
+    systemMessage: messageParams.systemMessage,
+    temperature: temperature.value,
+    onDownloadProgress: ({ event }) => {
+      clearInterval(loadingInterval)
+      const xhr = event.target
+      const { responseText } = xhr
+      const lastIndex = responseText.lastIndexOf('\n', responseText.length - 2)
+      let chunk = responseText
+      if (lastIndex !== -1) {
+        chunk = responseText.substring(lastIndex)
+      }
+      try {
+        const data = JSON.parse(chunk)
+        output.value = (data.text ?? '')
+        parentMessageId = data.parentMessageId
+      } catch (error) {
+        //
+      }
+    }
+  }).catch((error) => {
+    output.value = (error.message)
+  })
+
+
+  messagesStore.addMessage(
+    { role: 'user', content: message.value },
+    messageParams.roleKeyword,
+    parentMessageId
+  )
+  messagesStore.addMessage(
+    { role: 'assistant', content: output.value },
+    messageParams.roleKeyword,
+    parentMessageId
+  )
 
   // 关闭延时器
   flag.value = true
@@ -155,38 +170,25 @@ onMounted(async () => {
     }
   }, 35000)
 
-  let messageElements: any = []
+  let messageType: MessageType = {}
+  let hasRole = false
   messages.value.forEach(m => {
     if (m.roleKeyword == role.value) {
-      messageElements = m.messageElements
+      messageType = m
+      hasRole = true
       return
     }
   })
 
-  let messageParams: any = []
-  // 系统默认角色 直接发送请求
-  if (roleMap.has(role.value)) {
+  // 存在角色 直接发送请求
+  if (hasRole) {
     // 角色对应的历史聊天记录
-    messageParams = messageElements
-    console.log("历史聊天记录", ...messageParams)
-    await getGptOutput(flag, messageParams, loadingInterval, role.value)
-  } else if (loginUser.value.username == 'local') {
-    output.value = "当前用户未登录，只能使用默认角色～"
+    await getGptOutput(flag, messageType, loadingInterval)
+  } else {
+    output.value = "该角色不存在～"
     flag.value = true
     clearInterval(loadingInterval)
     emit('finish')
-  } else {
-    const res: any = await getRoleElementsByKeyword(role.value)
-    if (res?.code !== 0) {
-      output.value = "该角色不存在～"
-      flag.value = true
-      clearInterval(loadingInterval)
-      emit('finish')
-    } else {
-      // 角色对应的角色信息以及历史聊天记录
-      messageParams = [...res.data, ...messageElements]
-      await getGptOutput(flag, messageParams, loadingInterval, role.value)
-    }
   }
 });
 </script>
