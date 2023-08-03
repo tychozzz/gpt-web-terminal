@@ -32,6 +32,8 @@ GPT Terminal 是一个让你在终端上与 GPT 进行自由对话的平台。
 
 项目基于 Vue3 与 Express 实现
 
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/2S2-Da)
+
 ## 预览
 
 演示地址：https://gpt-terminal.up.railway.app/（使用前配置 🪜）
@@ -167,20 +169,6 @@ B站功能细节展示：https://www.bilibili.com/video/BV1Ux4y1o7nu/?spm_id_fro
 # d - 角色描述，例如：将你的自然语言指令翻译为 Window/Unix 终端命令
 gpt diy <-k GPT 角色唯一标识> <-n GPT 角色名> <-d GPT 角色描述>
 ```
-
-## 版本规划
-
-- [x] 支持自定义 GPT 角色并与当前用户绑定，真正实现定制专属于你的 GPT 机器人～
-- [x] 支持 GPT 记忆历史对话，给你的 GPT 长长记性～
-- [x] 支持查询最近的 GPT 问答会话，使你与 GPT 的交流真正保存下来～
-- [ ] 支持用户在线设置与修改自己的 OpenAI Key
-- [x] 支持 GPT 回复内容以 Markdown 形式展现
-- [x] 前端首页展示艺术字体
-- [x] 支持 GPT 回复内容 以打字机方式流式输出
-- [ ] 支持前端命令行高亮展示
-- [ ] 引入角色市场
-
-各位敬请期待～
 
 ## 特别鸣谢
 
