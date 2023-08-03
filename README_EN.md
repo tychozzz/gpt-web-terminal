@@ -32,6 +32,8 @@ Here, you can easily implement more customized functionalities and have your own
 
 The project is implemented based on Vue3 and Express.
 
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/2S2-Da)
+
 ## Preview
 
 Demo Link：https://gpt-terminal.up.railway.app/
@@ -105,11 +107,7 @@ You only need to have a basic understanding of using `npm` to unlock all the fea
     gpt role -h
     gpt history -h
     ```
-
-## Quick Deploy
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/2S2-Da)
-
+ 
 ## How to Design Your Own GPT Role?
    
 Use the following command to start the role `DIY` process
